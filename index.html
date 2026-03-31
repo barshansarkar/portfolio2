@@ -3388,13 +3388,23 @@ Guiding you towards clarity, growth & destiny alignment (2025)
   width: 100%;
 ">
 
-  <form id="contactForm" style="display: flex; flex-direction: column; gap: 24px;" action="https://formsubmit.co/sarkarbarshan4@gmail.com" method="POST" >
+  <form id="contactForm" 
+      style="display: flex; flex-direction: column; gap: 24px;" 
+      action="https://formsubmit.co/sarkarbarshan4@gmail.com" 
+      method="POST"
+      onsubmit="return handleSubmit(event)">
 
+    <!-- FormSubmit required hidden fields -->
+    <input type="hidden" name="_captcha" value="false">
+    <input type="hidden" name="_template" value="table">
+    <input type="hidden" name="_next" value="https://your-website.com/thank-you.html">
+    
     <!-- Name -->
     <div style="position: relative;">
       <input
         type="text"
         id="name"
+        name="name"
         required
         style="width: 100%; padding: 20px 22px 8px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.12); border-radius: 18px; color: #f8fafc; font-size: 1.02rem; transition: all 0.35s cubic-bezier(0.4,0,0.2,1);"
         onfocus="this.style.borderColor='#818cf8'; this.parentElement.querySelector('label').style.top='8px'; this.parentElement.querySelector('label').style.fontSize='0.82rem'; this.parentElement.querySelector('label').style.color='#c4d0ff';"
@@ -3408,6 +3418,7 @@ Guiding you towards clarity, growth & destiny alignment (2025)
       <input
         type="email"
         id="email"
+        name="email"
         required
         style="width: 100%; padding: 20px 22px 8px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.12); border-radius: 18px; color: #f8fafc; font-size: 1.02rem; transition: all 0.35s cubic-bezier(0.4,0,0.2,1);"
         onfocus="this.style.borderColor='#818cf8'; this.parentElement.querySelector('label').style.top='8px'; this.parentElement.querySelector('label').style.fontSize='0.82rem'; this.parentElement.querySelector('label').style.color='#c4d0ff';"
@@ -3421,6 +3432,7 @@ Guiding you towards clarity, growth & destiny alignment (2025)
       <input
         type="text"
         id="subject"
+        name="subject"
         required
         style="width: 100%; padding: 20px 22px 8px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.12); border-radius: 18px; color: #f8fafc; font-size: 1.02rem; transition: all 0.35s cubic-bezier(0.4,0,0.2,1);"
         onfocus="this.style.borderColor='#818cf8'; this.parentElement.querySelector('label').style.top='8px'; this.parentElement.querySelector('label').style.fontSize='0.82rem'; this.parentElement.querySelector('label').style.color='#c4d0ff';"
@@ -3433,6 +3445,7 @@ Guiding you towards clarity, growth & destiny alignment (2025)
     <div style="position: relative;">
       <textarea
         id="message"
+        name="message"
         rows="5"
         required
         style="width: 100%; padding: 20px 22px 8px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.12); border-radius: 18px; color: #f8fafc; font-size: 1.02rem; resize: vertical; transition: all 0.35s cubic-bezier(0.4,0,0.2,1);"
@@ -3445,11 +3458,156 @@ Guiding you towards clarity, growth & destiny alignment (2025)
     <!-- Submit Button -->
     <button
       type="submit"
-      style="margin-top: 8px; padding: 18px 32px; background: linear-gradient(90deg, #6366f1, #8b5cf6); border: none; border-radius: 18px; color: white; font-weight: 700; font-size: 1.05rem; cursor: pointer; transition: all 0.4s cubic-bezier(0.4,0,0.2,1);">
+      style="margin-top: 8px; padding: 18px 32px; background: linear-gradient(90deg, #6366f1, #8b5cf6); border: none; border-radius: 18px; color: white; font-weight: 700; font-size: 1.05rem; cursor: pointer; transition: all 0.4s cubic-bezier(0.4,0,0.2,1);"
+      onmouseover="this.style.transform='scale(1.02)'; this.style.boxShadow='0 10px 25px -5px rgba(99,102,241,0.4)'"
+      onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none'">
       Send Message
     </button>
 
-  </form>
+</form>
+
+<script>
+// Handle form submission with success/error feedback
+function handleSubmit(event) {
+  event.preventDefault();
+  
+  const form = event.target;
+  const submitBtn = form.querySelector('button[type="submit"]');
+  const originalBtnText = submitBtn.innerHTML;
+  
+  // Show loading state
+  submitBtn.innerHTML = 'Sending...';
+  submitBtn.style.opacity = '0.7';
+  submitBtn.disabled = true;
+  
+  // Create FormData object
+  const formData = new FormData(form);
+  
+  // Submit the form using fetch
+  fetch(form.action, {
+    method: 'POST',
+    body: formData,
+    headers: {
+      'Accept': 'application/json'
+    }
+  })
+  .then(response => {
+    if (response.ok) {
+      // Show success message
+      showNotification('✅ Message sent successfully! I\'ll get back to you soon.', 'success');
+      form.reset();
+      
+      // Reset floating labels
+      document.querySelectorAll('.floating-label').forEach(label => {
+        // Labels will reset on blur naturally
+      });
+    } else {
+      throw new Error('Failed to send');
+    }
+  })
+  .catch(error => {
+    // Show error message
+    showNotification('❌ Failed to send message. Please try again or email me directly at sarkarbarshan4@gmail.com', 'error');
+  })
+  .finally(() => {
+    // Reset button
+    submitBtn.innerHTML = originalBtnText;
+    submitBtn.style.opacity = '1';
+    submitBtn.disabled = false;
+  });
+  
+  return false;
+}
+
+// Function to show notification
+function showNotification(message, type) {
+  // Remove existing notification if any
+  const existingNotification = document.querySelector('.form-notification');
+  if (existingNotification) {
+    existingNotification.remove();
+  }
+  
+  // Create notification element
+  const notification = document.createElement('div');
+  notification.className = 'form-notification';
+  notification.style.cssText = `
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 16px 24px;
+    background: ${type === 'success' ? '#10b981' : '#ef4444'};
+    color: white;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 500;
+    z-index: 10000;
+    animation: slideIn 0.3s ease;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    max-width: 350px;
+    backdrop-filter: blur(10px);
+  `;
+  notification.innerHTML = message;
+  
+  document.body.appendChild(notification);
+  
+  // Auto remove after 5 seconds
+  setTimeout(() => {
+    notification.style.animation = 'slideOut 0.3s ease';
+    setTimeout(() => {
+      if (notification.parentNode) {
+        notification.remove();
+      }
+    }, 300);
+  }, 5000);
+}
+
+// Add animation styles
+const style = document.createElement('style');
+style.textContent = `
+  @keyframes slideIn {
+    from {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+  
+  @keyframes slideOut {
+    from {
+      transform: translateX(0);
+      opacity: 1;
+    }
+    to {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+  }
+  
+  /* Preserve label states for filled inputs on page load */
+  input:not(:placeholder-shown) + label,
+  textarea:not(:placeholder-shown) + label {
+    top: 8px !important;
+    font-size: 0.82rem !important;
+    color: #c4d0ff !important;
+  }
+`;
+document.head.appendChild(style);
+
+// Initialize labels for pre-filled values (if any)
+document.querySelectorAll('input, textarea').forEach(input => {
+  if (input.value) {
+    const label = input.parentElement.querySelector('label');
+    if (label) {
+      label.style.top = '8px';
+      label.style.fontSize = '0.82rem';
+      label.style.color = '#c4d0ff';
+    }
+  }
+});
+</script>
 </div>
             </div>
         </div>
