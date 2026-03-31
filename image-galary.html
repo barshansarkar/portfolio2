@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>ÉLAN VITRINE · Modern Gallery System · Protected</title>
+
+  <!-- Tailwind CSS via CDN - NO INSTALLATION NEEDED -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Custom CSS for glass morphism and animations -->
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap');
+
+    * {
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    /* Glass panel effect */
+    .glass-panel {
+      background: rgba(255, 255, 255, 0.68);
+      backdrop-filter: blur(18px);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+    }
+
+    .dark .glass-panel {
+      background: rgba(15, 15, 18, 0.72);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    /* Card hover animations */
+    .card-hover {
+      transition: all 0.4s cubic-bezier(0.2, 0.85, 0.4, 1);
+    }
+
+    .card-hover:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 25px 40px -18px rgba(0, 0, 0, 0.35);
+    }
+
+    /* Image zoom effect */
+    .img-zoom {
+      transition: transform 0.65s ease-out;
+    }
+
+    .group:hover .img-zoom {
+      transform: scale(1.08);
+    }
+
+    /* Gradient overlay */
+    .card-overlay {
+      background: linear-gradient(0deg, rgba(0, 0, 0, 0.65) 0%, rgba(0, 0, 0, 0.2) 50%, transparent 100%);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .group:hover .card-overlay {
+      opacity: 1;
+    }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #eae6e2;
+      border-radius: 12px;
+    }
+
+    .dark ::-webkit-scrollbar-track {
+      background: #2a2623;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #b89b87;
+      border-radius: 12px;
+    }
+
+    /* Button press effect */
+    .access-btn {
+      transition: all 0.25s ease;
+    }
+
+    .access-btn:active {
+      transform: scale(0.97);
+    }
+
+    /* Smooth theme transition */
+    body, .glass-panel, button, div {
+      transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+    }
+
+    /* ========== IMAGE PROTECTION STYLES ========== */
+    /* Disable selection and dragging on all images */
+    img, .protected-img {
+      -webkit-user-select: none !important;
+      -moz-user-select: none !important;
+      -ms-user-select: none !important;
+      user-select: none !important;
+      -webkit-user-drag: none !important;
+      -khtml-user-drag: none !important;
+      -moz-user-drag: none !important;
+      -o-user-drag: none !important;
+      user-drag: none !important;
+      -webkit-touch-callout: none !important;
+      pointer-events: auto !important;
+    }
+
+    /* Protection overlay for images */
+    .image-protection-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: transparent;
+      z-index: 10;
+      cursor: pointer;
+    }
+
+    /* Watermark overlay */
+    .watermark::after {
+      content: "🔒 PROTECTED";
+      position: absolute;
+      bottom: 8px;
+      right: 8px;
+      background: rgba(0, 0, 0, 0.6);
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 8px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: monospace;
+      z-index: 15;
+      pointer-events: none;
+      backdrop-filter: blur(4px);
+      letter-spacing: 0.5px;
+    }
+
+    /* Hide images when printing */
+    @media print {
+      img, .card, .group, [class*="image"] {
+        display: none !important;
+        visibility: hidden !important;
+      }
+
+      body::before {
+        content: "⚠️ Images are protected and cannot be printed ⚠️";
+        display: block;
+        text-align: center;
+        padding: 20px;
+        background: #dc2626;
+        color: white;
+        font-size: 14px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 9999;
+      }
+    }
+
+    /* Shimmer loading animation for fake images */
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+
+    .shimmer-loading {
+      background: linear-gradient(90deg, #e2e8f0 25%, #f1f5f9 50%, #e2e8f0 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+    }
+
+    .dark .shimmer-loading {
+      background: linear-gradient(90deg, #1e293b 25%, #334155 50%, #1e293b 75%);
+      background-size: 200% 100%;
+    }
+  </style>
+</head>
+<body class="bg-[#f8f6f3] dark:bg-[#0b0a09] transition-colors duration-500 antialiased">
+
+  <main class="max-w-[1600px] mx-auto px-5 md:px-8 py-8 md:py-12">
+
+    <!-- Main Gallery Container -->
+    <div class="glass-panel rounded-3xl md:rounded-[2.5rem] p-5 md:p-8 shadow-xl transition-all duration-500">
+
+      <!-- Header with Theme Toggle -->
+      <div class="flex flex-wrap items-center justify-between gap-4 mb-10 border-b border-black/10 dark:border-white/10 pb-6">
+        <div class="flex items-baseline gap-3">
+          <span class="text-4xl font-light text-stone-700 dark:text-stone-300 tracking-tight">✦</span>
+          <h1 class="text-3xl md:text-4xl font-medium tracking-tight text-stone-800 dark:text-stone-100">
+            <span class="font-semibold text-amber-700 dark:text-amber-400">Image </span> GALLERY
+          </h1>
+          <span class="hidden md:inline-block text-xs font-mono uppercase tracking-wider bg-stone-200/70 dark:bg-stone-800/70 px-3 py-1 rounded-full text-stone-600 dark:text-stone-400 ml-2">curated 2026</span>
+        </div>
+        <div class="flex items-center gap-4">
+          <div class="text-sm font-medium bg-white/50 dark:bg-black/30 backdrop-blur-sm px-4 py-2 rounded-full shadow-sm border border-black/5 dark:border-white/10">
+            <span class="text-amber-700 dark:text-amber-400">✦</span>
+          </div>
+          <button id="themeToggleBtn" class="w-11 h-11 rounded-full bg-white/60 dark:bg-stone-800/70 backdrop-blur-md border border-black/10 dark:border-white/15 shadow-md flex items-center justify-center text-xl transition-all hover:scale-110 active:scale-95 text-stone-700 dark:text-amber-300">
+            ☀︎
+          </button>
+        </div>
+      </div>
+
+      <!-- SECTION 1: SCHOOL GALLERY -->
+      <div class="mb-14">
+        <div class="flex flex-wrap justify-between items-end mb-6">
+          <div>
+            <h2 class="text-2xl md:text-3xl font-semibold tracking-tight text-stone-800 dark:text-white">
+              <span class="border-l-4 border-amber-600 pl-3">SCHOOL</span> <span class="font-light">· Heritage</span>
+            </h2>
+            <p class="text-stone-500 dark:text-stone-400 text-sm mt-1 ml-1">iconic spaces · candid moments</p>
+          </div>
+          <div class="text-xs uppercase tracking-wider bg-stone-200/50 dark:bg-stone-800/50 px-3 py-1.5 rounded-full text-stone-500">04 captures</div>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <!-- Card 1 - Protected -->
+          <div class="group relative rounded-2xl overflow-hidden bg-white dark:bg-stone-900 shadow-md card-hover cursor-pointer">
+            <div class="aspect-[4/5] relative overflow-hidden protected-image-container watermark">
+              <img src="./images (2).jpeg" alt="Modern school building" class="img-zoom w-full h-full object-cover protected-img" loading="lazy" draggable="false" oncontextmenu="return false" onselectstart="return false" ondragstart="return false">
+              <div class="card-overlay absolute inset-0 pointer-events-none"></div>
+              <div class="image-protection-overlay" oncontextmenu="return false" onselectstart="return false" ondragstart="return false" onmousedown="return false"></div>
+            </div>
+            <div class="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 via-black/40 to-transparent backdrop-blur-[2px]">
+              <div class="text-amber-300 text-[11px] font-semibold tracking-wider uppercase">Malda · IND</div>
+              <div class="text-white font-semibold text-lg leading-tight mt-0.5">Campus Gateway</div>
+              <div class="flex gap-2 mt-1.5"><span class="text-[10px] bg-white/20 px-2 py-0.5 rounded-full"></span><span class="text-[10px] bg-white/20 px-2 py-0.5 rounded-full">architecture</span></div>
+            </div>
+          </div>
+          <!-- Card 2 - Protected -->
+          <div class="group relative rounded-2xl overflow-hidden bg-white dark:bg-stone-900 shadow-md card-hover cursor-pointer">
+            <div class="aspect-[4/5] relative overflow-hidden protected-image-container watermark">
+              <img src="FB_IMG_1772967044947.jpg" alt="Modern classroom" class="img-zoom w-full h-full object-cover protected-img" loading="lazy" draggable="false" oncontextmenu="return false" onselectstart="return false" ondragstart="return false">
+              <div class="card-overlay absolute inset-0 pointer-events-none"></div>
+              <div class="image-protection-overlay" oncontextmenu="return false" onselectstart="return false" ondragstart="return false" onmousedown="return false"></div>
+            </div>
+            <div class="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 via-black/40 to-transparent">
+              <div class="text-amber-300 text-[11px] font-semibold">Learning Space</div>
+              <div class="text-white font-semibold text-lg">At farewell</div>
+              <div class="flex gap-2 mt-1.5"><span class="text-[10px] bg-white/20 px-2 py-0.5 rounded-full"></span><span class="text-[10px] bg-white/20 px-2 py-0.5 rounded-full"></span></div>
+            </div>
+          </div>
+          <!-- Card 3 - Protected -->
+          <div class="group relative rounded-2xl overflow-hidden bg-white dark:bg-stone-900 shadow-md card-hover cursor-pointer">
+            <div class="aspect-[4/5] relative overflow-hidden protected-image-container watermark">
+              <img src="/FB_IMG_1772967050771.jpg" alt="School playground" class="img-zoom w-full h-full object-cover protected-img" loading="lazy" draggable="false" oncontextmenu="return false" onselectstart="return false" ondragstart="return false">
+              <div class="card-overlay absolute inset-0"></div>
+              <div class="image-protection-overlay" oncontextmenu="return false" onselectstart="return false" ondragstart="return false" onmousedown="return false"></div>
+            </div>
+            <div class="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 via-black/40 to-transparent">
+              <div class="text-amber-300 text-[11px] font-semibold">School Ground</div>
+              <div class="text-white font-semibold text-lg">School Ground</div>
+              <div class="flex gap-2 mt-1.5"><span class="text-[10px] bg-white/20 px-2 py-0.5 rounded-full">active</span><span class="text-[10px] bg-white/20 px-2 py-0.5 rounded-full">sports</span></div>
+            </div>
+          </div>
+          <!-- Card 4 - Protected -->
+          <div class="group relative rounded-2xl overflow-hidden bg-white dark:bg-stone-900 shadow-md card-hover cursor-pointer">
+            <div class="aspect-[4/5] relative overflow-hidden protected-image-container watermark">
+              <img src="FB_IMG_1772967061070.jpg" alt="School library" class="img-zoom w-full h-full object-cover protected-img" loading="lazy" draggable="false" oncontextmenu="return false" onselectstart="return false" ondragstart="return false">
+              <div class="card-overlay absolute inset-0"></div>
+              <div class="image-protection-overlay" oncontextmenu="return false" onselectstart="return false" ondragstart="return false" onmousedown="return false"></div>
+            </div>
+            <div class="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 via-black/40 to-transparent">
+              <div class="text-amber-300 text-[11px] font-semibold">batch</div>
+              <div class="text-white font-semibold text-lg">Our Group</div>
+              <div class="flex gap-2 mt-1.5"><span class="text-[10px] bg-white/20 px-2 py-0.5 rounded-full">quiet</span><span class="text-[10px] bg-white/20 px-2 py-0.5 rounded-full">library</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION 2: DEPT OF COMPUTER SCIENCE (All images protected) -->
+      <div class="mb-14 mt-6">
+        <div class="flex flex-wrap justify-between items-end mb-6 border-t border-black/5 dark:border-white/5 pt-6">
+          <div>
+            <h2 class="text-2xl md:text-3xl font-semibold tracking-tight text-stone-800 dark:text-white">
+              <span class="border-l-4 border-sky-600 pl-3">DEPARTMENT OF COMPUTER SCIENCE AND APPLICATION</span> <span class="font-light">· EX DEP (GMDCSA)</span>
+            </h2>
+            <p class="text-stone-500 dark:text-stone-400 text-sm ml-1">computing wing · dev studio · AI hub</p>
+          </div>
+          <div class="text-xs uppercase tracking-wider bg-stone-200/50 dark:bg-stone-800/50 px-3 py-1.5 rounded-full text-stone-500">12 exposures</div>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+          <!-- All CS Cards with Protection -->
+          <div class="group relative rounded-xl overflow-hidden bg-stone-100 dark:bg-stone-800 shadow-md card-hover cursor-pointer">
+            <div class="aspect-[4/5] relative protected-image-container watermark"><img src="./1000066517.jpg" class="img-zoom w-full h-full object-cover protected-img" loading="lazy" draggable="false" oncontextmenu="return false" onselectstart="return false" ondragstart="return false"><div class="image-protection-overlay" oncontextmenu="return false"></div></div>
+            <div class="absolute bottom-0 left-0 right-0 p-3 bg-black/70 backdrop-blur-sm"><div class="text-amber-300 text-[10px] font-semibold">CAMPUS</div><div class="text-white text-sm font-medium">1ST DAY IN COLLEGE</div><div class="text-white/70 text-[9px] mt-1">learning studio</div></div>
+          </div>
+          <div class="group relative rounded-xl overflow-hidden bg-stone-100 dark:bg-stone-800 shadow-md card-hover cursor-pointer">
+            <div class="aspect-[4/5] relative protected-image-container watermark"><img src="./1000066506.jpg" class="img-zoom w-full h-full object-cover protected-img" loading="lazy" draggable="false" oncontextmenu="return false" onselectstart="return false" ondragstart="return false"><div class="image-protection-overlay" oncontextmenu="return false"></div></div>
+            <div class="absolute bottom-0 left-0 right-0 p-3 bg-black/70 backdrop-blur-sm"><div class="text-amber-300 text-[10px] font-semibold">JUST HEHE</div><div class="text-white text-sm font-medium">JUST ....</div><div class="text-white/70 text-[9px] mt-1">24hr innovation</div></div>
+          </div>
+          <div class="group relative rounded-xl overflow-hidden bg-stone-100 dark:bg-stone-800 shadow-md card-hover cursor-pointer">
+            <div class="aspect-[4/5] relative protected-image-container watermark"><img src="./GI/IMG-20240822-WA0001.jpg" class="img-zoom w-full h-full object-cover protected-img" loading="lazy" draggable="false" oncontextmenu="return false" onselectstart="return false" ondragstart="return false"><div class="image-protection-overlay" oncontextmenu="return false"></div></div>
+            <div class="absolute bottom-0 left-0 right-0 p-3 bg-black/70 backdrop-blur-sm"><div class="text-amber-300 text-[10px] font-semibold">Robotics</div><div class="text-white text-sm font-medium">Mechatronics</div><div class="text-white/70 text-[9px] mt-1">ARM Cortex</div></div>
+          </div>
+          <div class="group relative rounded-xl overflow-hidden bg-stone-100 dark:bg-stone-800 shadow-md card-hover cursor-pointer">
+            <div class="aspect-[4/5] relative protected-image-container watermark"><img src="./GI/IMG-20240822-WA0003.jpg" class="img-zoom w-full h-full object-cover protected-img" loading="lazy" draggable="false" oncontextmenu="return false" onselectstart="return false" ondragstart="return false"><div class="image-protection-overlay" oncontextmenu="return false"></div></div>
+            <div class="absolute bottom-0 left-0 right-0 p-3 bg-black/70 backdrop-blur-sm"><div class="text-amber-300 text-[10px] font-semibold">Cloud Computing</div><div class="text-white text-sm font-medium">Server Farm</div><div class="text-white/70 text-[9px] mt-1">k8s cluster</div></div>
+          </div>
+          <div class="group relative rounded-xl overflow-hidden bg-stone-100 dark:bg-stone-800 shadow-md card-hover cursor-pointer">
+            <div class="aspect-[4/5] relative protected-image-container watermark"><img src="./GI/20240824_134433.jpg" class="img-zoom w-full h-full object-cover protected-img" loading="lazy" draggable="false" oncontextmenu="return false" onselectstart="return false" ondragstart="return false"><div class="image-protection-overlay" oncontextmenu="return false"></div></div>
+            <div class="absolute bottom-0 left-0 right-0 p-3 bg-black/70 backdrop-blur-sm"><div class="text-amber-300 text-[10px] font-semibold">LAB</div><div class="text-white text-sm font-medium">LAB 2</div><div class="text-white/70 text-[9px] mt-1">LAB 2</div></div>
+          </div>
+          <div class="group relative rounded-xl overflow-hidden bg-stone-100 dark:bg-stone-800 shadow-md card-hover cursor-pointer">
+            <div class="aspect-[4/5] relative protected-image-container watermark"><img src="./GI/20240824_134148.jpg" class="img-zoom w-full h-full object-cover protected-img" loading="lazy" draggable="false" oncontextmenu="return false" onselectstart="return false" ondragstart="return false"><div class="image-protection-overlay" oncontextmenu="return false"></div></div>
+            <div class="absolute bottom-0 left-0 right-0 p-3 bg-black/70 backdrop-blur-sm"><div class="text-amber-300 text-[10px] font-semibold">Data Science</div><div class="text-white text-sm font-medium">HAVING FUN</div><div class="text-white/70 text-[9px] mt-1">Python · Tableau</div></div>
+          </div>
+          <div class="group relative rounded-xl overflow-hidden bg-stone-100 dark:bg-stone-800 shadow-md card-hover cursor-pointer">
+            <div class="aspect-[4/5] relative protected-image-container watermark"><img src="./GI/20240905_141159.jpg" class="img-zoom w-full h-full object-cover protected-img" loading="lazy" draggable="false" oncontextmenu="return false" onselectstart="return false" ondragstart="return false"><div class="image-protection-overlay" oncontextmenu="return false"></div></div>
+            <div class="absolute bottom-0 left-0 right-0 p-3 bg-black/70 backdrop-blur-sm"><div class="text-amber-300 text-[10px] font-semibold">Data Science</div><div class="text-white text-sm font-medium">CHILL</div><div class="text-white/70 text-[9px] mt-1">Python · Tableau</div></div>
+          </div>
+          <div class="group relative rounded-xl overflow-hidden bg-stone-100 dark:bg-stone-800 shadow-md card-hover cursor-pointer">
+            <div class="aspect-[4/5] relative protected-image-container watermark"><img src="./GI/20241113_125200.jpg" class="img-zoom w-full h-full object-cover protected-img" loading="lazy" draggable="false" oncontextmenu="return false" onselectstart="return false" ondragstart="return false"><div class="image-protection-overlay" oncontextmenu="return false"></div></div>
+            <div class="absolute bottom-0 left-0 right-0 p-3 bg-black/70 backdrop-blur-sm"><div class="text-amber-300 text-[10px] font-semibold">Data Science</div><div class="text-white text-sm font-medium">absolute CINEMA</div><div class="text-white/70 text-[9px] mt-1">Python · Tableau</div></div>
+          </div>
+          <div class="group relative rounded-xl overflow-hidden bg-stone-100 dark:bg-stone-800 shadow-md card-hover cursor-pointer">
+            <div class="aspect-[4/5] relative protected-image-container watermark"><img src="./GI/20250313_121554.jpg" class="img-zoom w-full h-full object-cover protected-img" loading="lazy" draggable="false" oncontextmenu="return false" onselectstart="return false" ondragstart="return false"><div class="image-protection-overlay" oncontextmenu="return false"></div></div>
+            <div class="absolute bottom-0 left-0 right-0 p-3 bg-black/70 backdrop-blur-sm"><div class="text-amber-300 text-[10px] font-semibold">HAVING FUN</div><div class="text-white text-sm font-medium">AFTER EXAM (1ST SEM)</div><div class="text-white/70 text-[9px] mt-1">....</div></div>
+          </div>
+          <!-- Continue with remaining cards (same protection pattern) -->
+          <div class="group relative rounded-xl overflow-hidden bg-stone-100 dark:bg-stone-800 shadow-md card-hover cursor-pointer">
+            <div class="aspect-[4/5] relative protected-image-container watermark"><img src="./GI/20250313_121607.jpg" class="img-zoom w-full h-full object-cover protected-img" loading="lazy" draggable="false" oncontextmenu="return false" onselectstart="return false" ondragstart="return false"><div class="image-protection-overlay" oncontextmenu="return false"></div></div>
+            <div class="absolute bottom-0 left-0 right-0 p-3 bg-black/70 backdrop-blur-sm"><div class="text-amber-300 text-[10px] font-semibold">Data Science</div><div class="text-white text-sm font-medium">AFTER EXAM (1ST SEM)</div><div class="text-white/70 text-[9px] mt-1">Python · Tableau</div></div>
+          </div>
+          <div class="group relative rounded-xl overflow-hidden bg-stone-100 dark:bg-stone-800 shadow-md card-hover cursor-pointer">
+            <div class="aspect-[4/5] relative protected-image-container watermark"><img src="./GI/20250313_120923.jpg" class="img-zoom w-full h-full object-cover protected-img" loading="lazy" draggable="false" oncontextmenu="return false" onselectstart="return false" ondragstart="return false"><div class="image-protection-overlay" oncontextmenu="return false"></div></div>
+            <div class="absolute bottom-0 left-0 right-0 p-3 bg-black/70 backdrop-blur-sm"><div class="text-amber-300 text-[10px] font-semibold">Data Science</div><div class="text-white text-sm font-medium">AFTER EXAM (1ST SEM)</div><div class="text-white/70 text-[9px] mt-1">Python · Tableau</div></div>
+          </div>
+
+          <div class="group relative rounded-xl overflow-hidden bg-stone-100 dark:bg-stone-800 shadow-md card-hover cursor-pointer">
+            <div class="aspect-[4/5] relative protected-image-container watermark"><img src="./GI/20241223_153925.jpg" class="img-zoom w-full h-full object-cover protected-img" loading="lazy" draggable="false" oncontextmenu="return false" onselectstart="return false" ondragstart="return false"><div class="image-protection-overlay" oncontextmenu="return false"></div></div>
+            <div class="absolute bottom-0 left-0 right-0 p-3 bg-black/70 backdrop-blur-sm"><div class="text-amber-300 text-[10px] font-semibold">Data Science</div><div class="text-white text-sm font-medium">AFTER EXAM (1ST SEM)</div><div class="text-white/70 text-[9px] mt-1">Python · Tableau</div></div>
+          </div>
+          <div class="group relative rounded-xl overflow-hidden bg-stone-100 dark:bg-stone-800 shadow-md card-hover cursor-pointer">
+            <div class="aspect-[4/5] relative protected-image-container watermark"><img src="./GI/20250313_120931.jpg" class="img-zoom w-full h-full object-cover protected-img" loading="lazy" draggable="false" oncontextmenu="return false" onselectstart="return false" ondragstart="return false"><div class="image-protection-overlay" oncontextmenu="return false"></div></div>
+            <div class="absolute bottom-0 left-0 right-0 p-3 bg-black/70 backdrop-blur-sm"><div class="text-amber-300 text-[10px] font-semibold">Data Science</div><div class="text-white text-sm font-medium">AFTER EXAM (1ST SEM)</div><div class="text-white/70 text-[9px] mt-1">Python · Tableau</div></div>
+          </div>
+          <div class="group relative rounded-xl overflow-hidden bg-stone-100 dark:bg-stone-800 shadow-md card-hover cursor-pointer">
+            <div class="aspect-[4/5] relative protected-image-container watermark"><img src="./GI/20250313_120933.jpg" class="img-zoom w-full h-full object-cover protected-img" loading="lazy" draggable="false" oncontextmenu="return false" onselectstart="return false" ondragstart="return false"><div class="image-protection-overlay" oncontextmenu="return false"></div></div>
+            <div class="absolute bottom-0 left-0 right-0 p-3 bg-black/70 backdrop-blur-sm"><div class="text-amber-300 text-[10px] font-semibold">Data Science</div><div class="text-white text-sm font-medium">AFTER EXAM (1ST SEM)</div><div class="text-white/70 text-[9px] mt-1">Python · Tableau</div></div>
+          </div>
+          <div class="group relative rounded-xl overflow-hidden bg-stone-100 dark:bg-stone-800 shadow-md card-hover cursor-pointer">
+            <div class="aspect-[4/5] relative protected-image-container watermark"><img src="./GI/20250813_162445.jpg" class="img-zoom w-full h-full object-cover protected-img" loading="lazy" draggable="false" oncontextmenu="return false" onselectstart="return false" ondragstart="return false"><div class="image-protection-overlay" oncontextmenu="return false"></div></div>
+            <div class="absolute bottom-0 left-0 right-0 p-3 bg-black/70 backdrop-blur-sm"><div class="text-amber-300 text-[10px] font-semibold">Data Science</div><div class="text-white text-sm font-medium">AFTER EXAM (1ST SEM)</div><div class="text-white/70 text-[9px] mt-1">Python · Tableau</div></div>
+          </div>
+
+           <div class="group relative rounded-xl overflow-hidden bg-stone-100 dark:bg-stone-800 shadow-md card-hover cursor-pointer">
+            <div class="aspect-[4/5] relative protected-image-container watermark"><img src="./GI/20250821_133527.jpg" class="img-zoom w-full h-full object-cover protected-img" loading="lazy" draggable="false" oncontextmenu="return false" onselectstart="return false" ondragstart="return false"><div class="image-protection-overlay" oncontextmenu="return false"></div></div>
+            <div class="absolute bottom-0 left-0 right-0 p-3 bg-black/70 backdrop-blur-sm"><div class="text-amber-300 text-[10px] font-semibold">Data Science</div><div class="text-white text-sm font-medium">AFTER EXAM (1ST SEM)</div><div class="text-white/70 text-[9px] mt-1">Python · Tableau</div></div>
+          </div>
+
+           <div class="group relative rounded-xl overflow-hidden bg-stone-100 dark:bg-stone-800 shadow-md card-hover cursor-pointer">
+            <div class="aspect-[4/5] relative protected-image-container watermark"><img src="./GI/20250902_144259.jpg" class="img-zoom w-full h-full object-cover protected-img" loading="lazy" draggable="false" oncontextmenu="return false" onselectstart="return false" ondragstart="return false"><div class="image-protection-overlay" oncontextmenu="return false"></div></div>
+            <div class="absolute bottom-0 left-0 right-0 p-3 bg-black/70 backdrop-blur-sm"><div class="text-amber-300 text-[10px] font-semibold">Data Science</div><div class="text-white text-sm font-medium">AFTER EXAM (1ST SEM)</div><div class="text-white/70 text-[9px] mt-1">Python · Tableau</div></div>
+          </div>
+
+           <div class="group relative rounded-xl overflow-hidden bg-stone-100 dark:bg-stone-800 shadow-md card-hover cursor-pointer">
+            <div class="aspect-[4/5] relative protected-image-container watermark"><img src="./GI/IMG-20250511-WA0005.jpg" class="img-zoom w-full h-full object-cover protected-img" loading="lazy" draggable="false" oncontextmenu="return false" onselectstart="return false" ondragstart="return false"><div class="image-protection-overlay" oncontextmenu="return false"></div></div>
+            <div class="absolute bottom-0 left-0 right-0 p-3 bg-black/70 backdrop-blur-sm"><div class="text-amber-300 text-[10px] font-semibold">Data Science</div><div class="text-white text-sm font-medium">AFTER EXAM (1ST SEM)</div><div class="text-white/70 text-[9px] mt-1">Python · Tableau</div></div>
+          </div>
+
+
+
+
+          <div class="group relative rounded-xl overflow-hidden bg-stone-100 dark:bg-stone-800 shadow-md card-hover cursor-pointer">
+            <div class="aspect-[4/5] relative protected-image-container watermark"><img src="./GI/IMG-20250707-WA0000.jpg" class="img-zoom w-full h-full object-cover protected-img" loading="lazy" draggable="false" oncontextmenu="return false" onselectstart="return false" ondragstart="return false"><div class="image-protection-overlay" oncontextmenu="return false"></div></div>
+            <div class="absolute bottom-0 left-0 right-0 p-3 bg-black/70 backdrop-blur-sm"><div class="text-amber-300 text-[10px] font-semibold">Data Science</div><div class="text-white text-sm font-medium">AFTER EXAM (1ST SEM)</div><div class="text-white/70 text-[9px] mt-1">Python · Tableau</div></div>
+          </div>
+<!--
+          this is  -->
+          <div class="group relative rounded-xl overflow-hidden bg-stone-100 dark:bg-stone-800 shadow-md card-hover cursor-pointer">
+            <div class="aspect-[4/5] relative protected-image-container watermark"><img src="./GI/Picsart_25-05-19_23-01-44-133.jpg" class="img-zoom w-full h-full object-cover protected-img" loading="lazy" draggable="false" oncontextmenu="return false" onselectstart="return false" ondragstart="return false"><div class="image-protection-overlay" oncontextmenu="return false"></div></div>
+            <div class="absolute bottom-0 left-0 right-0 p-3 bg-black/70 backdrop-blur-sm"><div class="text-amber-300 text-[10px] font-semibold">Data Science</div><div class="text-white text-sm font-medium">AFTER EXAM (1ST SEM)</div><div class="text-white/70 text-[9px] mt-1">Python · Tableau</div></div>
+          </div>
+
+          <div class="group relative rounded-xl overflow-hidden bg-stone-100 dark:bg-stone-800 shadow-md card-hover cursor-pointer">
+            <div class="aspect-[4/5] relative protected-image-container watermark"><img src="./GI/Picsart_25-05-19_23-03-54-047.jpg" class="img-zoom w-full h-full object-cover protected-img" loading="lazy" draggable="false" oncontextmenu="return false" onselectstart="return false" ondragstart="return false"><div class="image-protection-overlay" oncontextmenu="return false"></div></div>
+            <div class="absolute bottom-0 left-0 right-0 p-3 bg-black/70 backdrop-blur-sm"><div class="text-amber-300 text-[10px] font-semibold">Data Science</div><div class="text-white text-sm font-medium">AFTER EXAM (1ST SEM)</div><div class="text-white/70 text-[9px] mt-1">Python · Tableau</div></div>
+          </div>
+
+
+          <div class="group relative rounded-xl overflow-hidden bg-stone-100 dark:bg-stone-800 shadow-md card-hover cursor-pointer">
+            <div class="aspect-[4/5] relative protected-image-container watermark"><img src="./GI/Screenshot_20250519_225552_YouTube.png" class="img-zoom w-full h-full object-cover protected-img" loading="lazy" draggable="false" oncontextmenu="return false" onselectstart="return false" ondragstart="return false"><div class="image-protection-overlay" oncontextmenu="return false"></div></div>
+            <div class="absolute bottom-0 left-0 right-0 p-3 bg-black/70 backdrop-blur-sm"><div class="text-amber-300 text-[10px] font-semibold">Data Science</div><div class="text-white text-sm font-medium">AFTER EXAM (1ST SEM)</div><div class="text-white/70 text-[9px] mt-1">Python · Tableau</div></div>
+          </div>
+
+          <div class="group relative rounded-xl overflow-hidden bg-stone-100 dark:bg-stone-800 shadow-md card-hover cursor-pointer">
+            <div class="aspect-[4/5] relative protected-image-container watermark"><img src="./GI/Screenshot_20250519_225641_YouTube.png" class="img-zoom w-full h-full object-cover protected-img" loading="lazy" draggable="false" oncontextmenu="return false" onselectstart="return false" ondragstart="return false"><div class="image-protection-overlay" oncontextmenu="return false"></div></div>
+            <div class="absolute bottom-0 left-0 right-0 p-3 bg-black/70 backdrop-blur-sm"><div class="text-amber-300 text-[10px] font-semibold">Data Science</div><div class="text-white text-sm font-medium">AFTER EXAM (1ST SEM)</div><div class="text-white/70 text-[9px] mt-1">Python · Tableau</div></div>
+          </div>
+
+
+          <div class="group relative rounded-xl overflow-hidden bg-stone-100 dark:bg-stone-800 shadow-md card-hover cursor-pointer">
+            <div class="aspect-[4/5] relative protected-image-container watermark"><img src="./GI/Screenshot_20250519_225729_YouTube.png" class="img-zoom w-full h-full object-cover protected-img" loading="lazy" draggable="false" oncontextmenu="return false" onselectstart="return false" ondragstart="return false"><div class="image-protection-overlay" oncontextmenu="return false"></div></div>
+            <div class="absolute bottom-0 left-0 right-0 p-3 bg-black/70 backdrop-blur-sm"><div class="text-amber-300 text-[10px] font-semibold">Data Science</div><div class="text-white text-sm font-medium">AFTER EXAM (1ST SEM)</div><div class="text-white/70 text-[9px] mt-1">Python · Tableau</div></div>
+          </div>
+
+          <div class="group relative rounded-xl overflow-hidden bg-stone-100 dark:bg-stone-800 shadow-md card-hover cursor-pointer">
+            <div class="aspect-[4/5] relative protected-image-container watermark"><img src="./GI/Screenshot_20250519_230813_WhatsApp.png" class="img-zoom w-full h-full object-cover protected-img" loading="lazy" draggable="false" oncontextmenu="return false" onselectstart="return false" ondragstart="return false"><div class="image-protection-overlay" oncontextmenu="return false"></div></div>
+            <div class="absolute bottom-0 left-0 right-0 p-3 bg-black/70 backdrop-blur-sm"><div class="text-amber-300 text-[10px] font-semibold">Data Science</div><div class="text-white text-sm font-medium">AFTER EXAM (1ST SEM)</div><div class="text-white/70 text-[9px] mt-1">Python · Tableau</div></div>
+          </div>
+          <div class="group relative rounded-xl overflow-hidden bg-stone-100 dark:bg-stone-800 shadow-md card-hover cursor-pointer">
+            <div class="aspect-[4/5] relative protected-image-container watermark"><img src="./GI/20240918_120029.jpg" class="img-zoom w-full h-full object-cover protected-img" loading="lazy" draggable="false" oncontextmenu="return false" onselectstart="return false" ondragstart="return false"><div class="image-protection-overlay" oncontextmenu="return false"></div></div>
+            <div class="absolute bottom-0 left-0 right-0 p-3 bg-black/70 backdrop-blur-sm"><div class="text-amber-300 text-[10px] font-semibold">Data Science</div><div class="text-white text-sm font-medium">AFTER EXAM (1ST SEM)</div><div class="text-white/70 text-[9px] mt-1">Python · Tableau</div></div>
+          </div>
+
+          <div class="w-full h-full shimmer-loading flex items-center justify-center">
+  <div class="text-center text-gray-500 dark:text-gray-400">
+    <svg class="w-16 h-16 mx-auto mb-2 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+    </svg>
+    <span class="text-xs">Loading visualization...</span>
+  </div>
+</div>
+<div class="w-full h-full shimmer-loading flex items-center justify-center">
+  <div class="text-center text-gray-500 dark:text-gray-400">
+    <svg class="w-16 h-16 mx-auto mb-2 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+    </svg>
+    <span class="text-xs">Loading visualization...</span>
+  </div>
+</div>
+          <!-- ... (remaining cards follow same pattern) ... -->
+        </div>
+      </div>
+
+
+
+
+        <div class="mb-14 mt-6">
+        <div class="flex flex-wrap justify-between items-end mb-6 border-t border-black/5 dark:border-white/5 pt-6">
+          <div>
+            <h2 class="text-2xl md:text-3xl font-semibold tracking-tight text-stone-800 dark:text-white">
+              <span class="border-l-4 border-sky-600 pl-3">DEPARTMENT OF GEOGRAPHY </span> <span class="font-light">·  DEP (GMDG)</span>
+            </h2>
+            <p class="text-stone-500 dark:text-stone-400 text-sm ml-1">B.Sc IN GEOGRAPHY</p>
+          </div>
+          <div class="text-xs uppercase tracking-wider bg-stone-200/50 dark:bg-stone-800/50 px-3 py-1.5 rounded-full text-stone-500">12 exposures</div>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+          <!-- All CS Cards with Protection -->
+          <div class="group relative rounded-xl overflow-hidden bg-stone-100 dark:bg-stone-800 shadow-md card-hover cursor-pointer">
+            <div class="aspect-[4/5] relative protected-image-container watermark"><img src="./GI/IMG-20260209-WA0137.jpg" class="img-zoom w-full h-full object-cover protected-img" loading="lazy" draggable="false" oncontextmenu="return false" onselectstart="return false" ondragstart="return false"><div class="image-protection-overlay" oncontextmenu="return false"></div></div>
+            <div class="absolute bottom-0 left-0 right-0 p-3 bg-black/70 backdrop-blur-sm"><div class="text-amber-300 text-[10px] font-semibold">CAMPUS</div><div class="text-white text-sm font-medium">1ST DAY IN COLLEGE</div><div class="text-white/70 text-[9px] mt-1">learning studio</div></div>
+          </div>
+          <div class="group relative rounded-xl overflow-hidden bg-stone-100 dark:bg-stone-800 shadow-md card-hover cursor-pointer">
+            <div class="aspect-[4/5] relative protected-image-container watermark"><img src="" class="img-zoom w-full h-full object-cover protected-img" loading="lazy" draggable="false" oncontextmenu="return false" onselectstart="return false" ondragstart="return false"><div class="image-protection-overlay" oncontextmenu="return false"></div></div>
+            <div class="absolute bottom-0 left-0 right-0 p-3 bg-black/70 backdrop-blur-sm"><div class="text-amber-300 text-[10px] font-semibold">JUST HEHE</div><div class="text-white text-sm font-medium">JUST ....</div><div class="text-white/70 text-[9px] mt-1">24hr innovation</div></div>
+          </div>
+
+          <div class="w-full h-full shimmer-loading flex items-center justify-center">
+  <div class="text-center text-gray-500 dark:text-gray-400">
+    <svg class="w-16 h-16 mx-auto mb-2 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+    </svg>
+    <span class="text-xs">Loading visualization...</span>
+  </div>
+</div>
+
+          <div class="group relative rounded-xl overflow-hidden bg-stone-100 dark:bg-stone-800 shadow-md card-hover cursor-pointer">
+            <div class="aspect-[4/5] relative protected-image-container watermark"><img src="./GI/IMG-20260209-WA0090.jpg" class="object-cover protected-img" loading="lazy" draggable="false" oncontextmenu="return false" onselectstart="return false" ondragstart="return false"><div class="image-protection-overlay" oncontextmenu="return false"></div></div>
+            <div class="absolute bottom-0 left-0 right-0 p-3 bg-black/70 backdrop-blur-sm"><div class="text-amber-300 text-[10px] font-semibold">Cloud Computing</div><div class="text-white text-sm font-medium">Server Farm</div><div class="text-white/70 text-[9px] mt-1">k8s cluster</div></div>
+          </div>
+          <div class="group relative rounded-xl overflow-hidden bg-stone-100 dark:bg-stone-800 shadow-md card-hover cursor-pointer">
+            <div class="aspect-[4/5] relative protected-image-container watermark"><img src="./GI/IMG-20260221-WA0022.jpg" class=" object-cover protected-img" loading="lazy" draggable="false" oncontextmenu="return false" onselectstart="return false" ondragstart="return false"><div class="image-protection-overlay" oncontextmenu="return false"></div></div>
+            <div class="absolute bottom-0 left-0 right-0 p-3 bg-black/70 backdrop-blur-sm"><div class="text-amber-300 text-[10px] font-semibold">LAB</div><div class="text-white text-sm font-medium">LAB 2</div><div class="text-white/70 text-[9px] mt-1">LAB 2</div></div>
+          </div>
+          <div class="group relative rounded-xl overflow-hidden bg-stone-100 dark:bg-stone-800 shadow-md card-hover cursor-pointer">
+            <div class="aspect-[4/5] relative protected-image-container watermark"><img src="./GI/Screenshot_20260222_165531_WhatsApp.png" class="img-zoom w-full h-full object-cover protected-img" loading="lazy" draggable="false" oncontextmenu="return false" onselectstart="return false" ondragstart="return false"><div class="image-protection-overlay" oncontextmenu="return false"></div></div>
+            <div class="absolute bottom-0 left-0 right-0 p-3 bg-black/70 backdrop-blur-sm"><div class="text-amber-300 text-[10px] font-semibold">Data Science</div><div class="text-white text-sm font-medium">HAVING FUN</div><div class="text-white/70 text-[9px] mt-1">Python · Tableau</div></div>
+          </div>
+          <div class="group relative rounded-xl overflow-hidden bg-stone-100 dark:bg-stone-800 shadow-md card-hover cursor-pointer">
+            <div class="aspect-[4/5] relative protected-image-container watermark"><img src="./GI/1000201911.jpg" class="img-zoom w-full h-full object-cover protected-img" loading="lazy" draggable="false" oncontextmenu="return false" onselectstart="return false" ondragstart="return false"><div class="image-protection-overlay" oncontextmenu="return false"></div></div>
+            <div class="absolute bottom-0 left-0 right-0 p-3 bg-black/70 backdrop-blur-sm"><div class="text-amber-300 text-[10px] font-semibold">Data Science</div><div class="text-white text-sm font-medium">CHILL</div><div class="text-white/70 text-[9px] mt-1">Python · Tableau</div></div>
+          </div>
+
+
+           <div class="w-full h-full shimmer-loading flex items-center justify-center">
+  <div class="text-center text-gray-500 dark:text-gray-400">
+    <svg class="w-16 h-16 mx-auto mb-2 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+    </svg>
+    <span class="text-xs">Loading visualization...</span>
+  </div>
+</div>
+
+
+ <div class="w-full h-full shimmer-loading flex items-center justify-center">
+  <div class="text-center text-gray-500 dark:text-gray-400">
+    <svg class="w-16 h-16 mx-auto mb-2 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+    </svg>
+    <span class="text-xs">Loading visualization...</span>
+  </div>
+</div>
+
+
+ <div class="w-full h-full shimmer-loading flex items-center justify-center">
+  <div class="text-center text-gray-500 dark:text-gray-400">
+    <svg class="w-16 h-16 mx-auto mb-2 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+    </svg>
+    <span class="text-xs">Loading visualization...</span>
+  </div>
+</div>
+
+ <div class="w-full h-full shimmer-loading flex items-center justify-center">
+  <div class="text-center text-gray-500 dark:text-gray-400">
+    <svg class="w-16 h-16 mx-auto mb-2 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+    </svg>
+    <span class="text-xs">Loading visualization...</span>
+  </div>
+</div>
+
+
+ <div class="w-full h-full shimmer-loading flex items-center justify-center">
+  <div class="text-center text-gray-500 dark:text-gray-400">
+    <svg class="w-16 h-16 mx-auto mb-2 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+    </svg>
+    <span class="text-xs">Loading visualization...</span>
+  </div>
+</div>
+
+ <div class="w-full h-full shimmer-loading flex items-center justify-center">
+  <div class="text-center text-gray-500 dark:text-gray-400">
+    <svg class="w-16 h-16 mx-auto mb-2 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+    </svg>
+    <span class="text-xs">Loading visualization...</span>
+  </div>
+</div>
+
+
+ <div class="w-full h-full shimmer-loading flex items-center justify-center">
+  <div class="text-center text-gray-500 dark:text-gray-400">
+    <svg class="w-16 h-16 mx-auto mb-2 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+    </svg>
+    <span class="text-xs">Loading visualization...</span>
+  </div>
+</div>
+
+          <!-- ... (remaining cards follow same pattern) ... -->
+        </div>
+      </div>
+
+      <!-- Rest of your content remains the same -->
+      <div class="mt-12 pt-4 border-t border-dashed border-stone-300/50 dark:border-stone-700/50 flex flex-col md:flex-row gap-5 justify-between items-center">
+        <div class="flex items-center gap-3 bg-amber-50/60 dark:bg-amber-950/20 backdrop-blur-sm px-5 py-3 rounded-2xl border border-amber-200/50 dark:border-amber-800/30 w-full md:w-auto">
+          <span class="text-xl">⚠️</span>
+          <p class="text-xs md:text-sm text-stone-700 dark:text-stone-300 font-mono tracking-tight">📡 INTERNAL SSD · ROOT FETCH ACTIVE — all assets streamed from secure storage ( backend bridge).</p>
+        </div>
+        <div class="flex gap-3 w-full md:w-auto">
+          <button id="rootAccessBtn" class="access-btn bg-black/5 dark:bg-white/5 backdrop-blur-sm border border-black/10 dark:border-white/10 px-5 py-2.5 rounded-full text-sm font-medium text-stone-800 dark:text-stone-200 hover:bg-black/10 dark:hover:bg-white/10 transition flex items-center gap-2">
+            🔑 Access Root Gallery + GDrive
+          </button>
+          <a href="./index.htm">
+
+            <button id="returnBtn" class="access-btn bg-stone-800 dark:bg-stone-700 text-white px-5 py-2.5 rounded-full text-sm font-medium hover:bg-stone-900 transition shadow-md" >
+              ← Return to Main Page
+            </button>
+          </a>
+        </div>
+      </div>
+
+      <div class="mt-10 text-right text-[11px] uppercase tracking-wider text-stone-400 dark:text-stone-500 flex justify-between items-center">
+        <span>✦ curated by  archives · 2026</span>
+        <span>∞  · zero latency · 🔒 Protected</span>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    (function() {
+      // ========== COMPREHENSIVE IMAGE PROTECTION SCRIPT ==========
+
+      // 1. Disable context menu on all images and protected containers
+      document.querySelectorAll('img, .protected-image-container, [class*="image"]').forEach(el => {
+        el.addEventListener('contextmenu', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          showProtectionWarning();
+          return false;
+        });
+      });
+
+      // 2. Disable keyboard shortcuts
+      document.addEventListener('keydown', function(e) {
+        // Ctrl+S, Ctrl+P, Ctrl+U, Ctrl+Shift+I, F12, PrintScreen
+        if ((e.ctrlKey && (e.key === 's' || e.key === 'S' || e.key === 'p' || e.key === 'P' || e.key === 'u' || e.key === 'U')) ||
+            (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i')) ||
+            e.key === 'F12' ||
+            e.key === 'PrintScreen') {
+          e.preventDefault();
+          e.stopPropagation();
+          showProtectionWarning();
+          return false;
+        }
+      });
+
+      // 3. Disable drag and drop
+      document.addEventListener('dragstart', function(e) {
+        if (e.target.tagName === 'IMG' || e.target.closest('img')) {
+          e.preventDefault();
+          return false;
+        }
+      });
+
+      // 4. Disable selection on images
+      document.addEventListener('selectstart', function(e) {
+        if (e.target.tagName === 'IMG' || e.target.closest('img')) {
+          e.preventDefault();
+          return false;
+        }
+      });
+
+      // 5. Protection warning function
+      function showProtectionWarning() {
+        const warning = document.createElement('div');
+        warning.textContent = '🔒 Image download is disabled on this gallery 🔒';
+        warning.style.cssText = 'position:fixed; top:20px; left:50%; transform:translateX(-50%); background:#dc2626; color:white; padding:12px 24px; border-radius:8px; z-index:10000; font-size:14px; font-weight:bold; box-shadow:0 4px 12px rgba(0,0,0,0.3); animation:fadeOut 2s forwards;';
+        document.body.appendChild(warning);
+        setTimeout(() => warning.remove(), 2000);
+      }
+
+      // 6. Disable all mouse right-click globally
+      document.addEventListener('mousedown', function(e) {
+        if (e.button === 2) {
+          e.preventDefault();
+          return false;
+        }
+      });
+
+      // 7. Block canvas export methods
+      const originalToDataURL = HTMLCanvasElement.prototype.toDataURL;
+      HTMLCanvasElement.prototype.toDataURL = function() {
+        console.warn('🔒 Canvas export blocked');
+        return '';
+      };
+
+      // Theme Toggle Logic (preserved)
+      const themeBtn = document.getElementById('themeToggleBtn');
+      const htmlRoot = document.documentElement;
+
+      function setTheme(theme) {
+        if (theme === 'dark') {
+          htmlRoot.classList.add('dark');
+          if(themeBtn) themeBtn.innerHTML = '☾';
+        } else {
+          htmlRoot.classList.remove('dark');
+          if(themeBtn) themeBtn.innerHTML = '☀︎';
+        }
+        localStorage.setItem('theme-preference', theme);
+      }
+
+      const savedTheme = localStorage.getItem('theme-preference');
+      const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      let initialTheme = savedTheme || (systemPrefersDark ? 'dark' : 'light');
+      setTheme(initialTheme);
+
+      if(themeBtn) {
+        themeBtn.addEventListener('click', () => {
+          const isDark = htmlRoot.classList.contains('dark');
+          setTheme(isDark ? 'light' : 'dark');
+        });
+      }
+
+      // Button Interactions
+      const rootBtn = document.getElementById('rootAccessBtn');
+      if(rootBtn) {
+        rootBtn.addEventListener('click', () => {
+          alert('🔐 SECURE ACCESS: Root gallery & Google Drive require passkey.\nAuthorized personnel only. (Simulated backend handshake)');
+        });
+      }
+
+      const returnBtn = document.getElementById('returnBtn');
+      if(returnBtn) {
+        returnBtn.addEventListener('click', () => {
+          alert('↺ Navigating to main dashboard — redirect simulation');
+          window.location.href = '#';
+        });
+      }
+
+      console.log('✨ ÉLAN Gallery — Fully responsive | Image protection active | No downloads allowed');
+    })();
+  </script>
+
+  <style>
+    @keyframes fadeOut {
+      0% { opacity: 1; transform: translateX(-50%) translateY(0); }
+      70% { opacity: 1; }
+      100% { opacity: 0; transform: translateX(-50%) translateY(-20px); display: none; }
+    }
+  </style>
+</body>
+</html>

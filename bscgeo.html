@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Barshan Sarkar | Digital Artisan</title>
+  <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: 'Hanken Grotesk', system-ui, sans-serif;
+      background: #ffffff;
+      color: #1a1a1a;
+      line-height: 1.85;
+      font-size: 1.05rem;
+    }
+    .container {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Header */
+    header {
+      padding: 40px 0 60px;
+      text-align: center;
+      border-bottom: 1px solid #f1f1f1;
+    }
+    .logo {
+      font-size: 2.1rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: #111;
+    }
+
+    /* Hero */
+    .hero {
+      height: 520px;
+      background: url('https://picsum.photos/id/1015/2000/1200') center/cover no-repeat;
+      border-radius: 24px;
+      margin: 40px 0;
+      position: relative;
+      display: flex;
+      align-items: flex-end;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(255,255,255,0.85), transparent 40%);
+      border-radius: 24px;
+    }
+    .hero-content {
+      position: relative;
+      padding: 60px 50px 50px;
+      z-index: 2;
+      max-width: 680px;
+    }
+    .hero-content h1 {
+      font-size: 2.85rem;
+      line-height: 1.15;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+    .meta {
+      font-size: 0.95rem;
+      color: #666;
+      margin-bottom: 12px;
+    }
+
+    /* Article Body */
+    article {
+      padding: 40px 0 100px;
+    }
+    .article-body {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+    .article-body p {
+      margin-bottom: 28px;
+      color: #444;
+    }
+    .article-body h2 {
+      font-size: 1.65rem;
+      margin: 52px 0 20px;
+      font-weight: 600;
+      color: #111;
+    }
+    .pull-quote {
+      font-size: 1.35rem;
+      font-weight: 500;
+      color: #1a1a1a;
+      border-left: 4px solid #3b82f6;
+      padding-left: 28px;
+      margin: 48px 0;
+      font-style: italic;
+    }
+    .inline-image {
+      margin: 60px 0;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+    }
+    .inline-image img {
+      width: 100%;
+      display: block;
+    }
+    .caption {
+      text-align: center;
+      margin-top: 12px;
+      font-size: 0.92rem;
+      color: #777;
+    }
+
+    /* Footer */
+    footer {
+      padding: 80px 0 40px;
+      text-align: center;
+      color: #888;
+      font-size: 0.95rem;
+      border-top: 1px solid #f1f1f1;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="container">
+      <div class="logo">Barshan Sarkar</div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="container hero-content">
+      <div class="meta">February 28, 2026 • By Barshan Sarkar</div>
+      <h1>GarurSaili CSS: A New Chapter in Elegant Web Design</h1>
+    </div>
+  </div>
+
+  <!-- Article -->
+  <article class="container">
+    <div class="article-body">
+
+      <p>At nineteen, Barshan Sarkar has created something remarkable — a CSS framework that feels both powerful and deeply elegant. GarurSaili is India’s first dynamic atomic utility system, built with simplicity and beauty in mind.</p>
+
+      <div class="inline-image">
+        <img src="https://picsum.photos/id/1015/1400/800" alt="GarurSaili Framework">
+        <div class="caption">GarurSaili in action — clean, fast, and beautifully responsive</div>
+      </div>
+
+      <h2>The Philosophy Behind the Framework</h2>
+      <p>Most utility frameworks focus only on speed. GarurSaili focuses on elegance. Every class is thoughtfully designed so that the final code reads like poetry while delivering exceptional performance.</p>
+
+      <div class="pull-quote">
+        “CSS should not just work — it should feel alive and beautiful.”
+      </div>
+
+      <p>The framework is under 3KB gzipped, uses no JavaScript for core animations, and works seamlessly with any modern stack. Developers who have tried the early version describe it as “the most satisfying CSS they’ve ever written.”</p>
+
+      <h2>What Makes It Special</h2>
+      <p>Real-time responsive utilities, dynamic color systems, scroll-driven micro-animations, and a deeply intuitive naming convention make GarurSaili stand apart. It is not just another framework — it is a design language.</p>
+
+    </div>
+  </article>
+
+  <footer>
+    <div class="container">
+      <p>Crafted with care by Barshan Sarkar • 2026</p>
+    </div>
+  </footer>
+
+</body>
+</html>

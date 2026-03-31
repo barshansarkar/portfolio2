@@ -1,0 +1,3798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barshah Sarkar | Digital Artisan</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-dark: #0a0a0f;
+            --secondary-dark: #0f172a;
+            --accent-blue: #3b82f6;
+            --accent-purple: #8b5cf6;
+            --accent-green: #10b981;
+            --accent-pink: #ec4899;
+            --accent-cyan: #06b6d4;
+            --accent-orange: #f97316;
+            --text-light: #f8fafc;
+            --text-muted: #94a3b8;
+            --card-dark: rgba(30, 41, 59, 0.4);
+            --card-light: rgba(255, 255, 255, 0.05);
+            --gradient-primary: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            --gradient-secondary: linear-gradient(135deg, var(--accent-green), var(--accent-cyan));
+            --gradient-tertiary: linear-gradient(135deg, var(--accent-pink), var(--accent-orange));
+            --transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            --shadow-glow-blue: 0 0 40px rgba(59, 130, 246, 0.4);
+        }
+
+        [data-theme="light"] {
+            --primary-dark: #f8fafc;
+            --secondary-dark: #e2e8f0;
+            --text-light: #0f172a;
+            --text-muted: #64748b;
+            --card-dark: rgba(255, 255, 255, 0.7);
+            --card-light: rgba(30, 41, 59, 0.05);
+            --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+            --shadow-glow-blue: 0 0 30px rgba(37, 99, 235, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 100px;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--primary-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+            transition: var(--transition);
+        }
+
+        /* Particle Background */
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            position: fixed;
+            top: 25px;
+            right: 25px;
+            z-index: 100000;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--card-dark);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow-lg);
+            animation: floatToggle 3s ease-in-out infinite;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.15) rotate(15deg);
+            box-shadow: var(--shadow-glow-blue);
+        }
+
+        @keyframes floatToggle {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        /* PURE CLEAR LIQUID GLASS NAVIGATION */
+        .liquid-glass-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 1.8rem 0;
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(60px) saturate(200%) brightness(1.1);
+            -webkit-backdrop-filter: blur(60px) saturate(200%) brightness(1.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow:
+                0 4px 40px rgba(0, 0, 0, 0.08),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.05);
+        }
+
+        .liquid-glass-nav.scrolled {
+            padding: 1rem 0;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(80px) saturate(300%) brightness(1.15);
+            -webkit-backdrop-filter: blur(80px) saturate(300%) brightness(1.15);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow:
+                0 8px 50px rgba(0, 0, 0, 0.12),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.08);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+            height: 20px;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.4rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-primary);
+            transition: width 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: translateY(-2px);
+        }
+
+        .logo:hover::after {
+            width: 100%;
+        }
+
+        .logo-icon {
+            margin-right: 12px;
+            font-size: 2rem;
+            background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            transition: var(--transition);
+        }
+
+        .logo:hover .logo-icon {
+            transform: rotate(15deg) scale(1.1);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: rgba(255, 255, 255, 0.85);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            position: relative;
+            padding: 0.5rem 0;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            overflow: hidden;
+        }
+
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent-blue), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.4s ease;
+            opacity: 0.8;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .nav-link:hover {
+            color: #ffffff;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+        }
+
+        .nav-link:hover::before {
+            transform: translateX(0);
+        }
+
+        .nav-link:hover::after {
+            left: 100%;
+        }
+
+        .nav-link.active {
+            color: #ffffff;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+        }
+
+        .nav-link.active::before {
+            transform: translateX(0);
+            background: linear-gradient(90deg, transparent, var(--accent-blue), var(--accent-purple), transparent);
+        }
+
+        /* Mobile Menu Button */
+        .hamburger {
+            display: none;
+            width: 32px;
+            height: 24px;
+            position: relative;
+            cursor: pointer;
+            background: transparent;
+            border: none;
+            padding: 0;
+            z-index: 1001;
+        }
+
+        .hamburger span {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 2px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-origin: center;
+        }
+
+        .hamburger span:nth-child(1) { top: 0; }
+        .hamburger span:nth-child(2) { top: 11px; }
+        .hamburger span:nth-child(3) { top: 22px; }
+
+        .hamburger:hover span {
+            background: var(--accent-blue);
+            box-shadow: 0 0 8px rgba(59, 130, 246, 0.3);
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(6px, 6px);
+            background: var(--accent-blue);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(8px, -8px);
+            background: var(--accent-blue);
+        }
+
+        /* Hero Section */
+        .hero {
+        margin-top: 10 auto;
+            min-height: 100vh;
+            display:flex;
+            align-items: center;
+            padding-top: 5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 6rem;
+            align-items: center;
+        }
+
+        .hero-text h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 5rem;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--text-light) 30%, var(--accent-blue) 70%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: fadeInUp 1s ease-out;
+            position: relative;
+        }
+
+        .hero-text .highlight {
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 800;
+            position: relative;
+            display: inline-block;
+        }
+
+        .hero-text .highlight::after {
+            content: '';
+            position: absolute;
+            bottom: 5px;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: var(--gradient-primary);
+            opacity: 0.3;
+            z-index: -1;
+            border-radius: 4px;
+            animation: highlightPulse 3s infinite alternate;
+        }
+
+        @keyframes highlightPulse {
+            0% { opacity: 0.2; }
+            100% { opacity: 0.5; }
+        }
+
+        .hero-text p {
+            font-size: 1.4rem;
+            color: var(--text-muted);
+            margin-bottom: 2.5rem;
+            max-width: 600px;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 1.5rem;
+            animation: fadeInUp 1s ease-out 0.4s both;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.2rem 3rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            letter-spacing: 1px;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: white;
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(59, 130, 246, 0.5);
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.7s;
+            z-index: -1;
+        }
+
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-light);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent-blue);
+            background: rgba(59, 130, 246, 0.1);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.2);
+        }
+
+        /* Floating Shapes */
+        .floating-shapes {
+            position: relative;
+            width: 550px;
+            height: 550px;
+        }
+
+        .shape {
+            position: absolute;
+            border-radius: 30px;
+            animation: float 8s ease-in-out infinite;
+            opacity: 0.9;
+            filter: blur(0.5px);
+        }
+
+        .shape-1 {
+            width: 320px;
+            height: 320px;
+            background: var(--gradient-primary);
+            top: 0;
+            left: 0;
+            animation-delay: 0s;
+            box-shadow: var(--shadow-glow-blue);
+        }
+
+        .shape-2 {
+            width: 270px;
+            height: 270px;
+            background: var(--gradient-secondary);
+            bottom: 0;
+            right: 0;
+            animation-delay: 2s;
+        }
+
+        .shape-3 {
+            width: 220px;
+            height: 220px;
+            background: var(--gradient-tertiary);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation-delay: 4s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            33% { transform: translateY(-30px) rotate(5deg); }
+            66% { transform: translateY(15px) rotate(-5deg); }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(60px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* Section Styling */
+        section {
+            padding: 10rem 0;
+            position: relative;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 6rem;
+        }
+
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--accent-blue);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            display: inline-block;
+            position: relative;
+            padding: 0 1rem;
+        }
+
+        .section-subtitle::before,
+        .section-subtitle::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 40px;
+            height: 2px;
+            background: var(--accent-blue);
+        }
+
+        .section-subtitle::before { left: -50px; }
+        .section-subtitle::after { right: -50px; }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            background: linear-gradient(135deg, var(--text-light), var(--accent-blue));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 5px;
+            background: var(--gradient-primary);
+            border-radius: 3px;
+            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.3);
+        }
+
+        /* Stats Section */
+        .stats {
+            padding: 5rem 0;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 30px;
+            margin: 3rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 3rem;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 2.5rem 2rem;
+            background: var(--card-dark);
+            border-radius: 25px;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-15px) scale(1.05);
+            border-color: var(--accent-blue);
+            box-shadow: var(--shadow-glow-blue);
+        }
+
+        .stat-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .stat-number {
+            font-size: 4rem;
+            font-weight: 800;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        /* About Section */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6rem;
+            align-items: center;
+        }
+
+        .image-frame {
+            width: 450px;
+            height: 550px;
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            margin: 0 auto;
+        }
+
+        .image-frame::before {
+            content: '';
+            position: absolute;
+            top: -15px;
+            left: -15px;
+            right: -15px;
+            bottom: -15px;
+            /* background: var(--gradient-primary); */
+            z-index: -1;
+            border-radius: 45px;
+            opacity: 0.5;
+            filter: blur(10px);
+        }
+
+        .skills-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2.5rem;
+            margin-top: 4rem;
+        }
+
+        .skill-item {
+            background: var(--card-dark);
+            padding: 2.5rem 2rem;
+            border-radius: 20px;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .skill-item:hover {
+            transform: translateY(-15px) scale(1.02);
+            border-color: var(--accent-blue);
+            box-shadow: var(--shadow-glow-blue);
+        }
+
+        .skill-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .skill-progress {
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            margin-top: 1.5rem;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .skill-progress-bar {
+            height: 100%;
+            background: var(--gradient-primary);
+            border-radius: 3px;
+            width: 0;
+            transition: width 1.5s ease;
+        }
+
+        /* Portfolio Section */
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 3rem;
+        }
+
+        .portfolio-item {
+            position: relative;
+            border-radius: 25px;
+            overflow: hidden;
+            height: 450px;
+            transition: var(--transition);
+        }
+
+        .portfolio-item:hover {
+            transform: translateY(-25px) scale(1.03);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+        }
+
+        .portfolio-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.95), transparent 50%);
+            padding: 3rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            opacity: 0;
+            transition: var(--transition);
+            transform: translateY(20px);
+        }
+
+        .portfolio-item:hover .portfolio-overlay {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .portfolio-tags {
+            display: flex;
+            gap: 0.8rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            background: var(--accent-blue);
+            color: white;
+            padding: 0.4rem 1.2rem;
+            border-radius: 25px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
+        }
+
+        .tag:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
+        }
+
+        /* Services Section */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 3rem;
+        }
+
+        .service-card {
+            background: var(--card-dark);
+            padding: 3rem;
+            border-radius: 25px;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card:hover {
+            transform: translateY(-20px);
+            border-color: var(--accent-blue);
+            box-shadow: var(--shadow-glow-blue);
+        }
+
+        .service-icon {
+            font-size: 3.5rem;
+            margin-bottom: 2rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        /* Testimonials */
+        .testimonials {
+            padding: 10rem 0;
+            background: rgba(0,0,0,0.2);
+            border-radius: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .testimonial-slider {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .testimonial-slide {
+            background: var(--card-dark);
+            padding: 4rem;
+            border-radius: 30px;
+            text-align: center;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            display: none;
+        }
+
+        .testimonial-slide.active {
+            display: block;
+            animation: slideIn 0.8s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(50px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0) scale(1);
+            }
+        }
+
+        .client-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin: 0 auto 2rem;
+            border: 3px solid var(--accent-blue);
+            padding: 3px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
+        }
+
+        .client-name {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .client-role {
+            color: var(--accent-blue);
+            font-weight: 600;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        /* Contact Section */
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 6rem;
+        }
+
+        .contact-form {
+            background: var(--card-dark);
+            padding: 4rem;
+            border-radius: 30px;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            color: var(--text-light);
+            font-family: 'Montserrat', sans-serif;
+            transition: var(--transition);
+            font-size: 1rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        /* Footer */
+        footer {
+            padding: 6rem 0 4rem;
+            background: rgba(0,0,0,0.5);
+            border-top: 1px solid rgba(255,255,255,0.05);
+            position: relative;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: var(--gradient-primary);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 5rem;
+            margin-bottom: 4rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1.2rem;
+            margin-top: 2rem;
+        }
+
+        .social-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--card-light);
+            color: var(--text-light);
+            font-size: 1.3rem;
+            transition: var(--transition);
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .social-link:hover {
+            transform: translateY(-8px) scale(1.1);
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
+            background: var(--gradient-primary);
+            color: white;
+        }
+
+        .copyright {
+            text-align: center;
+            color: var(--text-muted);
+            padding-top: 4rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Back to Top */
+      .back-to-top {
+    position: fixed;
+    bottom: 40px;
+    right: 40px;
+    width: 60px;
+    height: 60px;
+    /* Semi-transparent base — works on both light & dark backgrounds */
+    background: rgba(255, 255, 255, 0.18);
+    /* Frosted glass magic (the heart of iPhone liquid glass feel) */
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    border-radius: 50%;
+    /* Subtle luminous border like Apple's liquid glass edges */
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-decoration: none;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); /* Apple-like spring */
+    z-index: 100;
+    /* Softer, more premium shadow instead of hard glow */
+    box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.18),
+        inset 0 1px 0 rgba(255, 255, 255, 0.35),   /* top inner shine */
+        inset 0 -1px 0 rgba(255, 255, 255, 0.15);  /* subtle bottom depth */
+    /* Keep your float animation but make it gentler */
+    animation: float 6s ease-in-out infinite;
+}
+
+/* Optional: subtle inner specular highlight layer (very iPhone liquid glass) */
+.back-to-top::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.22) 0%,
+        rgba(255, 255, 255, 0.08) 40%,
+        transparent 60%
+    );
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+/* Hover / active state — feels more liquid & responsive */
+.back-to-top:hover,
+.back-to-top:active {
+    transform: scale(1.12) translateY(-4px);
+    background: rgba(255, 255, 255, 0.26);
+    border-color: rgba(255, 255, 255, 0.5);
+    box-shadow:
+        0 16px 48px rgba(0, 0, 0, 0.28),
+        inset 0 2px 0 rgba(255, 255, 255, 0.45),
+        inset 0 -2px 0 rgba(0, 0, 0, 0.08);
+    backdrop-filter: blur(20px) saturate(200%);
+    -webkit-backdrop-filter: blur(20px) saturate(200%);
+}
+
+/* Your original gradient as fallback/ accent if wanted */
+.back-to-top.gradient-accent {
+    background: var(--gradient-primary);
+    /* You can mix it like: linear-gradient(...) */
+}
+
+/* Smoother floating animation */
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-12px); }
+}
+
+/* Make sure it appears smoothly when visible */
+.back-to-top.visible {
+    opacity: 1;
+    visibility: visible;
+}
+        /* Animations */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(60px) scale(0.95);
+            transition: opacity 1s ease, transform 1s ease;
+        }
+
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 4rem;
+            }
+
+            .hero-text h1 {
+                font-size: 4rem;
+            }
+
+            .floating-shapes {
+                width: 450px;
+                height: 450px;
+                margin: 0 auto;
+            }
+
+            .about-content,
+            .contact-container {
+                grid-template-columns: 1fr;
+                gap: 5rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 992px) {
+            .section-title {
+                font-size: 3.2rem;
+            }
+
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 4rem;
+            }
+
+            .portfolio-grid,
+            .services-grid {
+                grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            }
+
+            .skills-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100vh;
+                background: rgba(10, 10, 15, 0.98);
+                backdrop-filter: blur(40px) saturate(200%);
+                -webkit-backdrop-filter: blur(40px) saturate(200%);
+                flex-direction: column;
+                justify-content: center;
+                padding: 2rem 0;
+                clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+                transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                opacity: 0;
+                visibility: hidden;
+                gap: 2rem;
+            }
+
+            .nav-links.active {
+                clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+                opacity: 1;
+                visibility: visible;
+            }
+
+            .hamburger {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .hero-text h1 {
+                font-size: 3.2rem;
+            }
+
+            .section-title {
+                font-size: 2.8rem;
+            }
+
+            .image-frame {
+                width: 350px;
+                height: 450px;
+            }
+
+            .floating-shapes {
+                width: 350px;
+                height: 350px;
+            }
+
+            .shape-1 { width: 220px; height: 220px; }
+            .shape-2 { width: 180px; height: 180px; }
+            .shape-3 { width: 150px; height: 150px; }
+
+            .theme-toggle {
+                right: 80px;
+            }
+
+            .contact-form {
+                padding: 3rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .container {
+                padding: 0 1.5rem;
+            }
+
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-btns {
+                flex-direction: column;
+                gap: 1.2rem;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .section-title {
+                font-size: 2.2rem;
+            }
+
+            .section-subtitle {
+                font-size: 1rem;
+                letter-spacing: 2px;
+            }
+
+            .section-subtitle::before,
+            .section-subtitle::after {
+                width: 20px;
+            }
+
+            .section-subtitle::before { left: -30px; }
+            .section-subtitle::after { right: -30px; }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 3rem;
+            }
+
+            .portfolio-grid,
+            .services-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .contact-form {
+                padding: 2rem;
+            }
+
+            .back-to-top {
+                bottom: 20px;
+                right: 20px;
+                width: 50px;
+                height: 50px;
+            }
+        }
+
+        /* Light Theme Support */
+        [data-theme="light"] .liquid-glass-nav {
+            background: rgba(255, 255, 255, 0.12);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+            box-shadow:
+                0 4px 40px rgba(0, 0, 0, 0.05),
+                inset 0 1px 0 rgba(255, 255, 255, 0.9),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.03);
+        }
+
+        [data-theme="light"] .liquid-glass-nav.scrolled {
+            background: rgba(255, 255, 255, 0.18);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            box-shadow:
+                0 8px 50px rgba(0, 0, 0, 0.08),
+                inset 0 1px 0 rgba(255, 255, 255, 0.95),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.05);
+        }
+
+        [data-theme="light"] .logo {
+            background: linear-gradient(135deg, #1e293b 0%, #475569 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+        }
+
+        [data-theme="light"] .logo-icon {
+            background: linear-gradient(135deg, #1e293b 0%, #475569 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+        }
+
+        [data-theme="light"] .nav-link {
+            color: rgba(15, 23, 42, 0.85);
+        }
+
+        [data-theme="light"] .nav-link:hover,
+        [data-theme="light"] .nav-link.active {
+            color: #0f172a;
+        }
+
+        [data-theme="light"] .nav-link::before {
+            background: linear-gradient(90deg, transparent, #475569, transparent);
+        }
+
+        [data-theme="light"] .hamburger span {
+            background: rgba(15, 23, 42, 0.85);
+        }
+
+        [data-theme="light"] .hamburger:hover span {
+            background: #0f172a;
+        }
+
+        [data-theme="light"] .hamburger.active span {
+            background: var(--accent-blue);
+        }
+
+        [data-theme="light"] .nav-links {
+            background: rgba(255, 255, 255, 0.98);
+        }
+    </style>
+</head>
+<body>
+    <!-- Particle Background -->
+    <div id="particles-js"></div>
+
+    <!-- Theme Toggle -->
+    <div class="theme-toggle" id="themeToggle">
+        <i class="fas fa-moon"></i>
+    </div>
+
+    <!-- PURE CLEAR LIQUID GLASS NAVIGATION -->
+    <header class="liquid-glass-nav" id="header">
+        <div class="container">
+            <nav>
+                <a href="#home" class="logo" style="font-size:medium;">
+                    <i class="fas fa-crown logo-icon"></i>
+                    Barshan Sarkar
+                </a>
+                <div class="nav-links" id="navLinks">
+                    <a href="#home" class="nav-link active">Home</a>
+                    <a href="#about" class="nav-link">About</a>
+                    <a href="#portfolio" class="nav-link">Portfolio</a>
+                    <a href="#services" class="nav-link">Services</a>
+                    <a href="#testimonials" class="nav-link">Testimonials</a>
+                    <a href="#contact" class="nav-link">Contact</a>
+                </div>
+                <div class="hamburger" id="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>I’m Barshan Sarkar. <span class="highlight">Masterpieces</span></h1>
+                    <p>a developer and independent researcher working at the intersection of technology, policy, and systems thinking. I created India’s first dynamic atomic utility CSS framework and pursue interdisciplinary research connecting software, governance, and society.</p>
+                    <div class="hero-btns">
+                        <a href="#portfolio" class="btn btn-primary">Explore My Work</a>
+                        <a href="./image-galary.html" class="btn btn-secondary">View Gallery</a>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="floating-shapes">
+                        <div class="shape shape-1"></div>
+                        <div class="shape shape-2"></div>
+                        <div class="shape shape-3"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <!-- <section class="stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-card animate-on-scroll">
+                    <div class="stat-icon">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <div class="stat-number" data-count="150">0</div>
+                    <h3>Projects Completed</h3>
+                </div>
+                <div class="stat-card animate-on-scroll">
+                    <div class="stat-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <div class="stat-number" data-count="98">0</div>
+                    <h3>Client Satisfaction</h3>
+                </div>
+                <div class="stat-card animate-on-scroll">
+                    <div class="stat-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-number" data-count="5">0</div>
+                    <h3>Years Experience</h3>
+                </div>
+                <div class="stat-card animate-on-scroll">
+                    <div class="stat-icon">
+                        <i class="fas fa-award"></i>
+                    </div>
+                    <div class="stat-number" data-count="24">0</div>
+                    <h3>Awards Won</h3>
+                </div>
+            </div>
+        </div>
+    </section> -->
+    <!-- Skills Hub Section -->
+<section class="skillHub" id="skills" aria-label="Skills">
+    <div class="container">
+        <header class="top">
+            <p class="eyebrow">Stack</p>
+            <h2>Barshan Sarkar - Skills</h2>
+            <p class="sub">Search, filter, and see proficiency levels .</p>
+
+            <div class="controls">
+                <div class="searchWrap">
+                    <span class="icon">⌕</span>
+                    <input id="q" type="search" placeholder="Search skills… (e.g., React, Docker, MSSQL)" />
+                    <button id="clear" type="button" class="miniBtn">Clear</button>
+                </div>
+
+                <div class="filters" id="filters" role="tablist" aria-label="Skill categories"></div>
+            </div>
+        </header>
+
+        <div class="grid">
+            <section class="panel">
+                <h3 class="panelTitle">Skill Chips</h3>
+                <div class="chipWrap" id="chipWrap" aria-live="polite"></div>
+                <div class="hint">Tip: Click a chip to pin highlight. Press Esc to clear.</div>
+            </section>
+
+            <section class="panel">
+                <h3 class="panelTitle">Proficiency</h3>
+                <ul class="bars" id="bars"></ul>
+                <!-- <div class="note">Bars are editable in the JS data. Keep it honest, keep it clean.</div> -->
+            </section>
+        </div>
+
+    </div>
+<style>
+    /* Skills Hub Section - EXACT Implementation */
+.skillHub {
+    padding: 10rem 0;
+    background: transparent;
+    position: relative;
+    overflow: hidden;
+}
+
+.skillHub .container {
+    width: min(1120px, 96vw);
+    border: 1px solid rgba(255, 255, 255, .12);
+    border-radius: 22px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, .06), rgba(255, 255, 255, .03));
+    box-shadow: 0 20px 70px rgba(0, 0, 0, .55);
+    backdrop-filter: blur(10px);
+    padding: 26px 22px 22px;
+    position: relative;
+    z-index: 2;
+}
+
+/* Override any conflicting global styles */
+.skillHub * {
+    box-sizing: border-box;
+}
+
+.skillHub .top .eyebrow {
+    margin: 0 0 6px;
+    font-size: 12px;
+    letter-spacing: .28em;
+    text-transform: uppercase;
+    color: rgba(245, 245, 247, .62);
+}
+
+.skillHub .top h2 {
+    margin: 0;
+    font-size: 28px;
+    letter-spacing: .2px;
+    background: linear-gradient(135deg, var(--text-light), var(--accent-blue));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.skillHub .top .sub {
+    margin: 8px 0 0;
+    color: var(--text-muted);
+    line-height: 1.45;
+    font-size: 14px;
+}
+
+.skillHub .controls {
+    margin-top: 16px;
+    display: grid;
+    gap: 12px;
+}
+
+.skillHub .searchWrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 12px;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, .14);
+    background: rgba(0, 0, 0, .22);
+}
+
+.skillHub .searchWrap .icon {
+    opacity: .8;
+    font-weight: 700;
+}
+
+.skillHub .searchWrap input {
+    width: 100%;
+    border: 0;
+    outline: none;
+    background: transparent;
+    color: var(--text-light);
+    font-size: 14px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.skillHub .miniBtn {
+    border: 1px solid rgba(255, 255, 255, .14);
+    background: rgba(255, 255, 255, .06);
+    color: var(--text-light);
+    border-radius: 999px;
+    padding: 9px 12px;
+    cursor: pointer;
+    transition: transform .12s ease, background .12s ease;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+}
+
+.skillHub .miniBtn:hover {
+    transform: translateY(-1px);
+    background: rgba(255, 255, 255, .10);
+}
+
+.skillHub .miniBtn:active {
+    transform: translateY(0) scale(.98);
+}
+
+.skillHub .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.skillHub .fbtn {
+    border: 1px solid rgba(255, 255, 255, .14);
+    background: rgba(255, 255, 255, .06);
+    color: var(--text-light);
+    border-radius: 999px;
+    padding: 10px 12px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: transform .12s ease, background .12s ease, border-color .12s ease;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.skillHub .fbtn:hover {
+    transform: translateY(-1px);
+}
+
+.skillHub .fbtn[aria-selected="true"] {
+    background: rgba(255, 255, 255, .12);
+    border-color: rgba(255, 255, 255, .22);
+}
+
+.skillHub .grid {
+    margin-top: 18px;
+    display: grid;
+    grid-template-columns: 1.05fr .95fr;
+    gap: 16px;
+}
+
+@media (max-width: 880px) {
+    .skillHub .grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.skillHub .panel {
+    border: 1px solid rgba(255, 255, 255, .10);
+    background: linear-gradient(180deg, rgba(255, 255, 255, .05), rgba(255, 255, 255, .02));
+    border-radius: 20px;
+    padding: 16px;
+    overflow: hidden;
+    position: relative;
+}
+
+.skillHub .panelTitle {
+    margin: 0 0 12px;
+    font-size: 14px;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: rgba(245, 245, 247, .75);
+}
+
+.skillHub .chipWrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-content: flex-start;
+    min-height: 200px;
+}
+
+.skillHub .chip {
+    --h: 200;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 12px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, .12);
+    background: rgba(0, 0, 0, .20);
+    cursor: pointer;
+    user-select: none;
+    transition: transform .12s ease, background .12s ease, border-color .12s ease;
+    transform: translateY(6px);
+    opacity: 0;
+    animation: popIn .38s ease forwards;
+}
+
+@keyframes popIn {
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.skillHub .chip:hover {
+    transform: translateY(-1px);
+    border-color: rgba(255, 255, 255, .22);
+}
+
+.skillHub .chip .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 999px;
+    background: hsla(var(--h), 90%, 60%, .95);
+    box-shadow: 0 0 18px hsla(var(--h), 90%, 60%, .42);
+}
+
+.skillHub .chip .name {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: .1px;
+}
+
+.skillHub .chip .cat {
+    font-size: 12px;
+    color: rgba(245, 245, 247, .62);
+}
+
+.skillHub .chip.isPinned {
+    background: linear-gradient(180deg, rgba(255, 255, 255, .12), rgba(255, 255, 255, .06));
+    border-color: rgba(255, 255, 255, .26);
+}
+
+.skillHub .hint,
+.skillHub .note {
+    margin-top: 12px;
+    font-size: 12px;
+    color: rgba(245, 245, 247, .62);
+}
+
+.skillHub .bars {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 14px;
+}
+
+.skillHub .barRow {
+    padding: 12px 12px 14px;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, .10);
+    background: rgba(0, 0, 0, .18);
+}
+
+.skillHub .barHead {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.skillHub .barHead .label {
+    font-weight: 800;
+    font-size: 14px;
+}
+
+.skillHub .barHead .pct {
+    font-variant-numeric: tabular-nums;
+    font-weight: 800;
+    opacity: .95;
+}
+
+.skillHub .track {
+    height: 12px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, .10);
+    border: 1px solid rgba(255, 255, 255, .10);
+    overflow: hidden;
+}
+
+.skillHub .fill {
+    --h: 200;
+    width: 0%;
+    height: 100%;
+    border-radius: 999px;
+    background: linear-gradient(90deg,
+            hsla(var(--h), 90%, 60%, 1),
+            hsla(calc(var(--h) + 40), 90%, 60%, 1));
+    box-shadow: 0 10px 26px hsla(var(--h), 90%, 55%, .22),
+        0 0 18px hsla(var(--h), 90%, 60%, .20);
+    position: relative;
+}
+
+.skillHub .fill::before {
+    content: "";
+    position: absolute;
+    inset: -30% -40%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .24), transparent);
+    transform: translateX(-45%);
+    animation: shimmer 1.15s linear infinite;
+}
+
+@keyframes shimmer {
+    0% {
+        transform: translateX(-45%);
+    }
+
+    100% {
+        transform: translateX(45%);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .skillHub .chip {
+        animation: none;
+        opacity: 1;
+        transform: none;
+    }
+
+    .skillHub .fill::before {
+        animation: none;
+    }
+}
+
+/* Light theme support for skills hub */
+[data-theme="light"] .skillHub .container {
+    background: linear-gradient(180deg, rgba(255, 255, 255, .15), rgba(255, 255, 255, .08));
+    border: 1px solid rgba(0, 0, 0, .12);
+}
+
+[data-theme="light"] .skillHub .top .eyebrow {
+    color: rgba(0, 0, 0, .62);
+}
+
+[data-theme="light"] .skillHub .top .sub {
+    color: var(--text-muted);
+}
+
+[data-theme="light"] .skillHub .searchWrap {
+    border: 1px solid rgba(0, 0, 0, .14);
+    background: rgba(255, 255, 255, .4);
+}
+
+[data-theme="light"] .skillHub .searchWrap input {
+    color: var(--text-light);
+}
+
+[data-theme="light"] .skillHub .miniBtn,
+[data-theme="light"] .skillHub .fbtn {
+    border: 1px solid rgba(0, 0, 0, .14);
+    background: rgba(0, 0, 0, .06);
+    color: var(--text-light);
+}
+
+[data-theme="light"] .skillHub .fbtn:hover {
+    background: rgba(0, 0, 0, .10);
+}
+
+[data-theme="light"] .skillHub .fbtn[aria-selected="true"] {
+    background: rgba(0, 0, 0, .12);
+    border-color: rgba(0, 0, 0, .22);
+}
+
+[data-theme="light"] .skillHub .panel {
+    border: 1px solid rgba(0, 0, 0, .10);
+    background: linear-gradient(180deg, rgba(0, 0, 0, .05), rgba(0, 0, 0, .02));
+}
+
+[data-theme="light"] .skillHub .panelTitle {
+    color: rgba(0, 0, 0, .75);
+}
+
+[data-theme="light"] .skillHub .chip {
+    border: 1px solid rgba(0, 0, 0, .12);
+    background: rgba(255, 255, 255, .4);
+}
+
+[data-theme="light"] .skillHub .chip .cat {
+    color: rgba(0, 0, 0, .62);
+}
+
+[data-theme="light"] .skillHub .chip.isPinned {
+    background: linear-gradient(180deg, rgba(0, 0, 0, .12), rgba(0, 0, 0, .06));
+    border-color: rgba(0, 0, 0, .26);
+}
+
+[data-theme="light"] .skillHub .hint,
+[data-theme="light"] .skillHub .note {
+    color: rgba(0, 0, 0, .62);
+}
+
+[data-theme="light"] .skillHub .barRow {
+    border: 1px solid rgba(0, 0, 0, .10);
+    background: rgba(255, 255, 255, .4);
+}
+
+[data-theme="light"] .skillHub .track {
+    background: rgba(0, 0, 0, .10);
+    border: 1px solid rgba(0, 0, 0, .10);
+}
+
+[data-theme="light"] .skillHub .fill::before {
+    background: linear-gradient(90deg, transparent, rgba(0, 0, 0, .24), transparent);
+}
+
+/* Skills Hub Background Effect */
+.skillHub::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+        radial-gradient(1100px 700px at 15% 20%, rgba(120, 170, 255, .18), transparent 60%),
+        radial-gradient(900px 650px at 85% 75%, rgba(255, 155, 110, .16), transparent 60%),
+        linear-gradient(180deg, rgba(10, 10, 15, 0.8), rgba(15, 23, 42, 0.9));
+    z-index: 1;
+}
+
+.skillHub > .container {
+    position: relative;
+    z-index: 2;
+}
+</style>
+<script>
+    // Skills Hub - EXACT Implementation
+(function () {
+    // Single source of truth
+    const DATA = [
+        {
+            category: "Programming",
+            hue: 32,
+            items: ["JavaScript", "Python", "C++", "TypeScript", "PHP"]
+        },
+        {
+            category: "Web Development",
+            hue: 200,
+            items: ["HTML5", "CSS3", "SCSS", "React",  "Next.js", "Node.js", "Express"]
+        },
+        {
+            category: "Frameworks",
+            hue: 265,
+            items: ["React", "Next.js", "Express", "Django", "Flask"]
+        },
+        {
+            category: "Runtime / Tools",
+            hue: 150,
+            items: ["Node.js",  "Webpack", "Vite"]
+        },
+        {
+            category: "Databases",
+            hue: 110,
+            items: ["MySQL",  "MongoDB",  "Firebase", "Supabase"]
+        },
+        {
+            category: "Design Tools",
+            hue: 18,
+            items: ["Adobe XD", "Photoshop", "Illustrator",]
+        },
+        {
+            category: "IDEs / Editors",
+            hue: 310,
+            items: ["VS Code",  "Sublime Text"]
+        },
+        {
+            category: "Dev Utilities",
+            hue: 55,
+            items: ["Git", "GitHub"]
+        },
+         {
+            category: "Astrology ",
+            hue: 89,
+            items: ["palmstray", "chart "]
+        }
+    ];
+
+    // Proficiency bars (top/core view)
+    const BARS = [
+        // { name: "React", value: 92, hue: 32 },
+        // { name: "JavaScript", value: 96, hue: 200 },
+        // { name: "Node.js", value: 86, hue: 55 },
+        // { name: "UI/UX Design", value: 82, hue: 265 },
+        { name: "TypeScript", value: 99, hue: 150 },
+        { name: "Python", value: 84, hue: 150 },
+        // { name: "AWS", value: 72, hue: 110 },
+        // { name: "Docker", value: 66, hue: 110 },
+        // { name: "MongoDB", value: 70, hue: 110 },
+        // { name: "Next.js", value: 64, hue: 110 },
+        { name: "Rust", value:79,hue:20},
+        { name : "c & c++", value:99, hue : 175}
+    ];
+
+    const q = document.getElementById("q");
+    const clearBtn = document.getElementById("clear");
+    const filters = document.getElementById("filters");
+    const chipWrap = document.getElementById("chipWrap");
+    const barsEl = document.getElementById("bars");
+
+    let activeCat = "All";
+    let pinned = null;
+
+    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
+
+    // Build filter buttons
+    const cats = ["All", ...DATA.map(d => d.category)];
+    cats.forEach((c) => {
+        const b = document.createElement("button");
+        b.className = "fbtn";
+        b.type = "button";
+        b.role = "tab";
+        b.setAttribute("aria-selected", c === "All" ? "true" : "false");
+        b.textContent = c;
+        b.addEventListener("click", () => {
+            activeCat = c;
+            [...filters.querySelectorAll(".fbtn")].forEach(x => x.setAttribute("aria-selected", x.textContent === c ? "true" : "false"));
+            pinned = null;
+            render();
+        });
+        filters.appendChild(b);
+    });
+
+    // Build bars
+    function buildBars() {
+        barsEl.innerHTML = "";
+        BARS.forEach((b) => {
+            const li = document.createElement("li");
+            li.className = "barRow";
+            li.innerHTML = `
+        <div class="barHead">
+          <div class="label">${escapeHtml(b.name)}</div>
+          <div class="pct">0%</div>
+        </div>
+        <div class="track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+          <div class="fill" style="--h:${b.hue}"></div>
+        </div>
+      `;
+            li.dataset.value = String(b.value);
+            li.dataset.hue = String(b.hue);
+            barsEl.appendChild(li);
+        });
+    }
+
+    function animateBars() {
+        const rows = [...barsEl.querySelectorAll(".barRow")];
+        rows.forEach((row, i) => {
+            const value = Number(row.dataset.value || 0);
+            const fill = row.querySelector(".fill");
+            const pct = row.querySelector(".pct");
+            const track = row.querySelector(".track");
+
+            if (prefersReduced) {
+                fill.style.width = value + "%";
+                pct.textContent = value + "%";
+                track.setAttribute("aria-valuenow", String(value));
+                return;
+            }
+
+            fill.style.width = "0%";
+            pct.textContent = "0%";
+            track.setAttribute("aria-valuenow", "0");
+
+            const delay = 90 * i;
+            setTimeout(() => {
+                const start = performance.now();
+                const duration = 900 + Math.round(value * 5);
+
+                const tick = (now) => {
+                    const t = Math.max(0, Math.min(1, (now - start) / duration));
+                    const e = easeOutCubic(t);
+                    const current = Math.round(value * e);
+
+                    fill.style.width = (value * e).toFixed(2) + "%";
+                    pct.textContent = current + "%";
+                    track.setAttribute("aria-valuenow", String(current));
+
+                    if (t < 1) requestAnimationFrame(tick);
+                };
+
+                requestAnimationFrame(tick);
+            }, delay);
+        });
+    }
+
+    // Render chips
+    function render() {
+        const query = (q.value || "").trim().toLowerCase();
+        chipWrap.innerHTML = "";
+
+        let flat = [];
+        DATA.forEach((group) => {
+            group.items.forEach((name) => {
+                flat.push({
+                    name,
+                    category: group.category,
+                    hue: group.hue
+                });
+            });
+        });
+
+        // filter by category
+        if (activeCat !== "All") {
+            flat = flat.filter(x => x.category === activeCat);
+        }
+
+        // filter by search
+        if (query) {
+            flat = flat.filter(x => x.name.toLowerCase().includes(query) || x.category.toLowerCase().includes(query));
+        }
+
+        // sort: pinned first, then alpha
+        flat.sort((a, b) => a.name.localeCompare(b.name));
+
+        // render
+        flat.forEach((s, idx) => {
+            const chip = document.createElement("div");
+            chip.className = "chip";
+            chip.style.setProperty("--h", s.hue);
+            chip.style.animationDelay = `${Math.min(300, idx * 14)}ms`;
+            chip.innerHTML = `
+        <span class="dot" aria-hidden="true"></span>
+        <span class="name">${escapeHtml(s.name)}</span>
+        <span class="cat">• ${escapeHtml(s.category)}</span>
+      `;
+
+            chip.addEventListener("click", () => {
+                const isSame = pinned && pinned.name === s.name && pinned.category === s.category;
+                pinned = isSame ? null : s;
+
+                [...chipWrap.querySelectorAll(".chip")].forEach(c => c.classList.remove("isPinned"));
+                if (!isSame) chip.classList.add("isPinned");
+            });
+
+            chipWrap.appendChild(chip);
+        });
+
+        // animate bars again so it feels synced with filters/search
+        animateBars();
+    }
+
+    // Search events
+    if (q) q.addEventListener("input", () => render());
+    if (clearBtn) clearBtn.addEventListener("click", () => {
+        if (q) q.value = "";
+        render();
+        if (q) q.focus();
+    });
+
+    // Esc to clear pin/search
+    window.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+            pinned = null;
+            if (q) q.value = "";
+            render();
+        }
+    });
+
+    // Intersection: animate once visible
+    const io = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            render();
+            io.disconnect();
+        });
+    }, { threshold: 0.22 });
+
+    const skillHub = document.querySelector(".skillHub");
+    if (skillHub) io.observe(skillHub);
+
+    // helpers
+    function escapeHtml(str) {
+        return String(str)
+            .replaceAll("&", "&amp;")
+            .replaceAll("<", "&lt;")
+            .replaceAll(">", "&gt;")
+            .replaceAll('"', "&quot;")
+            .replaceAll("'", "&#039;");
+    }
+
+    // Initialize when DOM is loaded
+    document.addEventListener('DOMContentLoaded', function () {
+        buildBars();
+        render();
+    });
+})();
+</script>
+</section>
+
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="container">
+            <div class="section-header">
+                <p class="section-subtitle">About Me</p>
+                <h2 class="section-title">The Digital Artisan</h2>
+            </div>
+            <div class="about-content">
+               <div class="story-wrapper">
+  <div class="story-ring">
+    <img src="./bar.jpg" alt="Profile">
+  </div>
+</div>
+
+<style>
+    .story-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.story-ring {
+  width: 260px;
+  height: 260px;
+  padding: 5px; /* thickness of the ring */
+  border-radius: 50%;
+  background: linear-gradient(
+    45deg,
+    #feda75,
+    #fa7e1e,
+    #d62976,
+    #962fbf,
+    #4f5bd5
+  );
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.story-ring img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  background: white;
+}
+.story-ring {
+  animation: rotate 3s linear infinite;
+}
+
+@keyframes rotate {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+
+</style>
+                <div class="about-text animate-on-scroll">
+                    <h3 style="font-size: 2.2rem; margin-bottom: 1.5rem; background: var(--gradient-primary); -webkit-background-clip: text; background-clip: text; color: transparent;">Crafting Digital Excellence Since 2018</h3>
+                    <p style="  margin-bottom: 1.5rem; color: var(--text-muted);">I’m Barshan Sarkar, a 19-year-old developer and independent researcher. I work at the intersection of technology, systems, and long-form thinking. I created India’s first dynamic atomic utility CSS framework as an exploration of scalable design, abstraction, and performance.</p>
+                    <p style="margin-bottom: 2rem; color: var(--text-muted);">I began my academic journey in Bachelor of Computer Applications (BCA – Bachelor of Computer Applications) with a focus on Computer Science at Gour Mahavidyalaya (Session 2024–2026). Alongside formal education, I explored Data Science through independent study before choosing to step away to broaden my intellectual scope.</p>
+                    <p style="margin-bottom: 2rem; color: var(--text-muted);">I’m currently pursuing a Bachelor of Science in Geography, where my focus lies in deep research, spatial analysis, and interdisciplinary inquiry. Beyond technology, my interests extend into arts, politics, bureaucracy, and public-facing fields such as acting and modeling, shaping a broader understanding of systems, power, and human expression.</p>
+
+                    <!-- SUPER SEXY TAILWIND-STYLE SKILLS SECTION – 100% RAW CSS (no Tailwind CDN) -->
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<div style="max-width: 1280px; margin: 100px auto; padding: 0 24px; font-family: 'Hanken Grotesk', system-ui, sans-serif;">
+
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 28px;">
+
+    <!-- Skill 1 -->
+    <div style="background: rgba(255,255,255,0.06); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); border-radius: 24px; padding: 40px 32px; transition: all 0.4s cubic-bezier(0.4,0,0.2,1); position: relative; overflow: hidden;">
+      <div style="width: 64px; height: 64px; background: linear-gradient(135deg, #ffffff, #ffffff); border-radius: 18px; display: flex; align-items: center; justify-content: center; margin-bottom: 28px; box-shadow: 0 10px 30px rgba(255,107,107,0.3);">
+        <i class="fa-solid fa-cake-candles" style="font-size: 28px; color: rgb(0, 187, 16);"></i>
+      </div>
+      <h4 style="font-size: 1.5rem; font-weight: 700; color: white; margin-bottom: 12px;">01/04</h4>
+      <p style="color: #cbd5e1; line-height: 1.7; font-size: 1.02rem;"></p>
+
+      <div style="margin-top: 32px; height: 6px; background: rgba(255,255,255,0.12); border-radius: 999px; overflow: hidden;">
+        <div style="width: 0%; height: 100%; background: linear-gradient(to right, #eeeeee, #ffffff); transition: width 2s cubic-bezier(0.34,1.56,0.64,1);" data-width="100"></div>
+      </div>
+      <div style="margin-top: 8px; font-size: 0.95rem; font-weight: 600; color: #94a3b8;"></div>
+    </div>
+
+    <!-- Skill 2 -->
+    <div style="background: rgba(255,255,255,0.06); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); border-radius: 24px; padding: 40px 32px; transition: all 0.4s cubic-bezier(0.4,0,0.2,1); position: relative; overflow: hidden;">
+      <div style="width: 64px; height: 64px; background: linear-gradient(135deg, #4f46e5, #7c3aed); border-radius: 18px; display: flex; align-items: center; justify-content: center; margin-bottom: 28px; box-shadow: 0 10px 30px rgba(79,70,229,0.3);">
+        <i class="fas fa-code" style="font-size: 28px; color: white;"></i>
+      </div>
+      <h4 style="font-size: 1.5rem; font-weight: 700; color: white; margin-bottom: 12px;">Independent Researcher & Investor </h4>
+      <p style="color: #cbd5e1; line-height: 1.7; font-size: 1.02rem;">When I'm not working, I immerse myself in reading books, creative writing, analytical thinking, videography, music, and various aesthetic hobbies that bring balance and inspiration to my life.</p>
+
+      <div style="margin-top: 32px; height: 6px; background: rgba(255,255,255,0.12); border-radius: 999px; overflow: hidden;">
+        <div style="width: 0%; height: 100%; background: linear-gradient(to right, #4f46e5, #7c3aed); transition: width 2s cubic-bezier(0.34,1.56,0.64,1);" data-width="90"></div>
+      </div>
+      <div style="margin-top: 8px; font-size: 0.95rem; font-weight: 600; color: #94a3b8;"></div>
+    </div>
+
+    <!-- Skill 3 -->
+    <div style="background: rgba(255,255,255,0.06); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); border-radius: 24px; padding: 40px 32px; transition: all 0.4s cubic-bezier(0.4,0,0.2,1); position: relative; overflow: hidden;">
+      <div style="width: 64px; height: 64px; background: linear-gradient(135deg, #06b67f, #10b981); border-radius: 18px; display: flex; align-items: center; justify-content: center; margin-bottom: 28px; box-shadow: 0 10px 30px rgba(6,182,127,0.3);">
+        <i class="fas fa-crown" style="font-size: 28px; color: white;"></i>
+      </div>
+      <h4 style="font-size: 1.5rem; font-weight: 700; color: white; margin-bottom: 12px;">Leadership | </h4>
+      <p style="color: #cbd5e1; line-height: 1.7; font-size: 1.02rem;">Experienced leader with a track record of guiding teams and initiatives across multiple domains,
+    driven by strategic vision, empathy, and a relentless pursuit of excellence.</p>
+
+      <div style="margin-top: 32px; height: 6px; background: rgba(255,255,255,0.12); border-radius: 999px; overflow: hidden;">
+        <div style="width: 0%; height: 100%; background: linear-gradient(to right, #06b67f, #10b981); transition: width 2s cubic-bezier(0.34,1.56,0.64,1);" data-width="98"></div>
+      </div>
+      <div style="margin-top: 8px; font-size: 0.95rem; font-weight: 600; color: #94a3b8;"></div>
+    </div>
+
+    <!-- Skill 4 -->
+    <div style="background: rgba(255,255,255,0.06); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); border-radius: 24px; padding: 40px 32px; transition: all 0.4s cubic-bezier(0.4,0,0.2,1); position: relative; overflow: hidden;">
+      <div style="width: 64px; height: 64px; background: linear-gradient(135deg, #000000, #0010a3); border-radius: 18px; display: flex; align-items: center; justify-content: center; margin-bottom: 28px; box-shadow: 0 10px 30px rgba(249,115,22,0.3);">
+        <i class="fas fa-rocket" style="font-size: 28px; color: white;"></i>
+      </div>
+      <h4 style="font-size: 1.5rem; font-weight: 700; color: white; margin-bottom: 12px;">Aspirant </h4>
+      <p style="color: #cbd5e1; line-height: 1.7; font-size: 1.02rem;">Ambitious aspirant fueled by discipline and purpose.</p>
+
+      <div style="margin-top: 32px; height: 6px; background: rgba(255,255,255,0.12); border-radius: 999px; overflow: hidden;">
+        <div style="width: 0%; height: 100%; background: linear-gradient(to right, #ffffff, #ffffff); transition: width 2s cubic-bezier(0.34,1.56,0.64,1);" data-width="100"></div>
+      </div>
+      <div style="margin-top: 8px; font-size: 0.95rem; font-weight: 600; color: #94a3b8;"></div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  // Animate progress bars on load
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('[data-width]').forEach(bar => {
+      setTimeout(() => {
+        bar.style.width = bar.getAttribute('data-width') + '%';
+      }, 300);
+    });
+  });
+</script>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section class="portfolio" id="portfolio" style="padding: 80px 0; background: transparent;  ">
+    <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+
+        <!-- Section Header -->
+        <div class="section-header" style="text-align: center; margin-bottom: 50px;">
+            <p class="section-subtitle" style="color: #666; font-size: 16px; margin-bottom: 10px;">My Work</p>
+            <h2 class="section-title" style="font-size: 36px; color: #333; margin: 0;">Featured Projects</h2>
+        </div>
+
+        <!-- Portfolio Grid -->
+        <div class="portfolio-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
+
+            <!-- Project 1 -->
+            <div class="portfolio-item animate-on-scroll" style="position: relative; border-radius: 8px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.1); height: 300px; background: #f5f5f5;">
+                <img src="./garur.png"
+                     alt="Luxe Retail Platform"
+                     style="width: 100%; height: 100%; object-fit: cover; display: block;">
+                <div class="portfolio-overlay" style="position: absolute; bottom: 0; left: 0; right: 0; padding: 20px; background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); color: white;">
+                    <div class="portfolio-tags" style="margin-bottom: 10px;">
+                        <span class="tag" style="background: rgba(255,255,255,0.2); padding: 4px 12px; border-radius: 20px; font-size: 12px; margin-right: 8px;">Web Design</span>
+                        <span class="tag" style="background: rgba(255,255,255,0.2); padding: 4px 12px; border-radius: 20px; font-size: 12px; margin-right: 8px;">Atomic </span>
+                        <span class="tag" style="background: rgba(255,255,255,0.2); padding: 4px 12px; border-radius: 20px; font-size: 12px;">Dynamic </span>
+                    </div>
+                    <h3 style="font-size: 20px; margin-bottom: 5px; color: white;">GARUR SAILI CSS </h3>
+                    <p style="font-size: 14px; margin: 0; opacity: 0.9;">INDIAN AND GLOBAL 1ST FULLY DYNAMIC ATOMIC HYBRID CSS FRAMEWORK . WHEN I WAS IN 19 Y OLD I MADE IT </p>
+                </div>
+            </div>
+
+            <!-- Project 2 -->
+            <div class="portfolio-item animate-on-scroll" style="position: relative; border-radius: 8px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.1); height: 300px; background: #f5f5f5;">
+                <img src="./B.png"
+                     alt="Wellness Tracker"
+                     style="width: 100%; height: 100%; object-fit: cover; display: block;">
+                <div class="portfolio-overlay" style="position: absolute; bottom: 0; left: 0; right: 0; padding: 20px; background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); color: white;">
+                    <div class="portfolio-tags" style="margin-bottom: 10px;">
+                        <span class="tag" style="background: rgba(255,255,255,0.2); padding: 4px 12px; border-radius: 20px; font-size: 12px; margin-right: 8px;">Web Function and Logic </span>
+                        <span class="tag" style="background: rgba(255,255,255,0.2); padding: 4px 12px; border-radius: 20px; font-size: 12px; margin-right: 8px;">Compiler </span>
+                        <span class="tag" style="background: rgba(255,255,255,0.2); padding: 4px 12px; border-radius: 20px; font-size: 12px;">Programming Language </span>
+                    </div>
+                    <h3 style="font-size: 20px; margin-bottom: 5px; color: white;">BI</h3>
+                    <p style="font-size: 14px; margin: 0; opacity: 0.9;">THIS IS A MICRO COMPILER TO MAKE LOGICAL FUNCTIONS FOR HTML , LIKE JAVASCRIPT </p>
+                </div>
+            </div>
+
+            <!-- Project 3 -->
+            <div class="portfolio-item animate-on-scroll" style="position: relative; border-radius: 8px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.1); height: 300px; background: #f5f5f5;">
+                <img src="./ChatGPT Image Feb 21, 2026, 09_30_31 PM.png"
+                     alt="Fintech Dashboard"
+                     style="width: 100%; height: 100%; object-fit: cover; display: block;">
+                <div class="portfolio-overlay" style="position: absolute; bottom: 0; left: 0; right: 0; padding: 20px; background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); color: white;">
+                    <div class="portfolio-tags" style="margin-bottom: 10px;">
+                        <span class="tag" style="background: rgba(255,255,255,0.2); padding: 4px 12px; border-radius: 20px; font-size: 12px; margin-right: 8px;">Ultra Fast </span>
+                        <span class="tag" style="background: rgba(255,255,255,0.2); padding: 4px 12px; border-radius: 20px; font-size: 12px; margin-right: 8px;">Rust Based </span>
+                        <span class="tag" style="background: rgba(255,255,255,0.2); padding: 4px 12px; border-radius: 20px; font-size: 12px;">Performance</span>
+                    </div>
+                    <h3 style="font-size: 20px; margin-bottom: 5px; color: white;">RUST POWERD GARURSAILI CSS </h3>
+                    <p style="font-size: 14px; margin: 0; opacity: 0.9;">EXTREAMLY POWERFUL AND LIGHTNING FAST . IT IS UNDER DEV .. IT WILL FULLY DYNAMIC AND POWERFUL</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- Add Font Awesome if needed -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css">
+
+    <!-- Services Section -->
+    <section class="services" id="services">
+        <div class="container">
+            <div class="section-header">
+                <p class="section-subtitle">What I Offer</p>
+                <h2 class="section-title">My Services</h2>
+            </div>
+            <div class="services-grid">
+               <!-- 1. Add this font link once in your <head> -->
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- YOUR ORIGINAL CARD – NOW FULL SLEEK PREMIUM (100% inline CSS + JS for shine) -->
+<div class="service-card animate-on-scroll"
+     style="
+       position: relative;
+       overflow: hidden;
+       border-radius: 20px;
+       background: #000000;
+       border: 1px solid #393c41;
+       box-shadow: 0 0 0 3px #11161f;
+       transition: all 0.2s cubic-bezier(0.3, 0.8, 0.5, 0.5);
+       font-family: 'Hanken Grotesk', sans-serif;
+       color: white;
+       width: 100%;
+       max-width: 380px;
+     "
+     id="premium-card"
+     onmouseover="this.style.boxShadow='0 0 0 3px #1f2839'; this.style.transform='scale(1.02)';"
+     onmouseout="this.style.boxShadow='0 0 0 3px #11161f'; this.style.transform='scale(1)';">
+
+  <!-- Image Section -->
+  <div style="position: relative; width: 100%; height: 260px; overflow: hidden;">
+    <img
+      src="./images (1).jpeg"
+      alt="BSc Geography"
+      style="
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.8s cubic-bezier(0.3, 0.8, 0.5, 0.5);
+      "
+      onmouseover="this.style.transform='scale(1.08)'"
+      onmouseout="this.style.transform='scale(1)'"
+    >
+
+    <!-- Dark Gradient Overlay -->
+    <div style="
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.12), rgba(4, 4, 7, 0.88));
+    "></div>
+
+    <!-- Floating Label -->
+    <span style="
+      position: absolute;
+      bottom: 22px;
+      left: 22px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: white;
+      background: rgba(15,18,30,0.85);
+      padding: 8px 20px;
+      border-radius: 999px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(165,195,255,0.2);
+      z-index: 3;
+    ">Spatial Research</span>
+  </div>
+
+  <!-- Content -->
+  <div style="padding: 2rem 1.8rem 2.2rem; position: relative; z-index: 3;">
+    <h3 style="font-size: 1.85rem; margin-bottom: 0.9rem; font-weight: 600; line-height: 1.15;">
+      BSc Geography
+    </h3>
+    <p style="color: #bcbdc4; margin-bottom: 1.8rem; line-height: 1.65; font-size: 0.97rem;">
+      Currently pursuing Bachelor of Science in Geography, with a focus on spatial analysis, human–environment systems, geopolitics, and research-driven understanding of policy, territory, and society.
+    </p>
+    <a href="#education"
+       style="
+         padding: 0.85rem 2.4rem;
+         border-radius: 120px;
+         background: #ffffff;
+         border: 1px solid #2a3344;
+         color: #000000;
+         font-weight: 500;
+         letter-spacing: 0.05em;
+         text-decoration: none;
+         display: inline-flex;
+         align-items: center;
+         transition: all 0.3s cubic-bezier(0.3, 0.8, 0.5, 0.5);
+         box-shadow: 0 0 0 3px #11161f;
+       "
+       onmouseover="this.style.borderColor='#64748b'; this.style.boxShadow='0 0 0 3px #1f2839'; this.style.transform='translateY(-2px)';"
+       onmouseout="this.style.borderColor='#2a3344'; this.style.boxShadow='0 0 0 3px #11161f'; this.style.transform='translateY(0)';">
+      View Details
+    </a>
+  </div>
+
+  <!-- Mouse-following shine layer (inline) -->
+  <div id="shine" style="
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(96px circle at 50% 50%, rgba(255, 255, 255, 0.35) 33%, transparent 50%);
+    filter: blur(30px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 1s cubic-bezier(0.3, 0.8, 0.5, 0.5);
+    z-index: 2;
+  "></div>
+
+  <!-- Edge shine layer (inline) -->
+  <div id="edge" style="
+    position: absolute;
+    top: -30%;
+    left: 0;
+    width: 2px;
+    height: 90px;
+    background: linear-gradient(transparent, #a3bffa, transparent);
+    opacity: 0.3;
+    transform: translateY(-100%);
+    transition: all 1s ease-in;
+    z-index: 3;
+  "></div>
+</div>
+
+<script>
+  // Mouse-following shine + edge shine (exactly like your SCSS)
+  const card = document.getElementById('premium-card');
+  const shine = document.getElementById('shine');
+  const edge = document.getElementById('edge');
+
+  card.addEventListener('mousemove', (e) => {
+    const rect = card.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+
+    shine.style.background = `radial-gradient(96px circle at ${x}% ${y}%, rgba(255,255,255,0.35) 33%, transparent 50%)`;
+    shine.style.opacity = '1';
+    edge.style.transform = 'translateY(420%)';
+    edge.style.opacity = '0.9';
+  });
+
+  card.addEventListener('mouseleave', () => {
+    shine.style.opacity = '0';
+    edge.style.transform = 'translateY(-100%)';
+    edge.style.opacity = '0.3';
+  });
+</script>
+              <div class="service-card animate-on-scroll"
+     style="
+       position: relative;
+       overflow: hidden;
+       border-radius: 20px;
+       background: #000000;
+       border: 1px solid #393c41;
+       box-shadow: 0 0 0 3px #11161f;
+       transition: all 0.2s cubic-bezier(0.3, 0.8, 0.5, 0.5);
+       font-family: 'Hanken Grotesk', sans-serif;
+       color: white;
+       width: 100%;
+       max-width: 380px;
+     "
+     id="premium-card"
+     onmouseover="this.style.boxShadow='0 0 0 3px #1f2839'; this.style.transform='scale(1.02)';"
+     onmouseout="this.style.boxShadow='0 0 0 3px #11161f'; this.style.transform='scale(1)';"
+
+     onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 30px 80px rgba(0,0,0,0.45)'"
+     onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'"
+>
+
+    <!-- Image Section -->
+    <div style="position: relative; width: 100%; height: 200px; overflow: hidden;">
+        <img
+            src="./images.jpeg"
+            alt="Gour Mahavidyalaya"
+            style="
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                transition: transform 0.6s ease;
+            "
+            onmouseover="this.style.transform='scale(1.08)'"
+            onmouseout="this.style.transform='scale(1)'"
+        >
+
+        <!-- Dark Gradient Overlay -->
+        <div style="
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                to bottom,
+                rgba(0,0,0,0.15),
+                rgba(0,0,0,0.75)
+            );
+        "></div>
+
+        <!-- Floating Label -->
+        <span style="
+            position: absolute;
+            bottom: 16px;
+            left: 16px;
+            font-size: 0.75rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.85);
+        ">
+            Academic Foundation
+        </span>
+    </div>
+
+    <!-- Content -->
+    <div style="padding: 1.6rem;">
+        <h3 style="font-size: 1.7rem; margin-bottom: 0.8rem;">
+            BCA (Computer Science)
+        </h3>
+
+        <p style="color: var(--text-muted); margin-bottom: 1.4rem; line-height: 1.6;">
+            Bachelor of Computer Applications at Gour Mahavidyalaya, with emphasis on computer science fundamentals, programming, system design, and applied software development.
+        </p>
+
+        <a href="#education"
+           class="btn btn-secondary"
+           style="
+                padding: 0.7rem 2.2rem;
+                border-radius: 999px;
+                letter-spacing: 0.05em;
+                color: #fff ;
+           ">
+            View Details
+        </a>
+    </div>
+</div>
+
+
+               <div class="service-card animate-on-scroll"
+     style="
+        position: relative;
+       overflow: hidden;
+       border-radius: 20px;
+       background: #000000;
+       border: 1px solid #393c41;
+       box-shadow: 0 0 0 3px #11161f;
+       transition: all 0.2s cubic-bezier(0.3, 0.8, 0.5, 0.5);
+       font-family: 'Hanken Grotesk', sans-serif;
+       color: white;
+       width: 100%;
+       max-width: 380px;
+     "
+     id="premium-card"
+     onmouseover="this.style.boxShadow='0 0 0 3px #1f2839'; this.style.transform='scale(1.02)';"
+     onmouseout="this.style.boxShadow='0 0 0 3px #11161f'; this.style.transform='scale(1)';"
+
+     onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 30px 80px rgba(0,0,0,0.45)'"
+     onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'"
+>
+
+    <!-- Image Section -->
+    <div style="position: relative; width: 100%; height: 200px; overflow: hidden;">
+        <img
+            src="./images (2).jpeg"
+            alt="Malda Umesh Chandra Bastuhara Vidyalaya"
+            style="
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                transition: transform 0.6s ease;
+            "
+            onmouseover="this.style.transform='scale(1.08)'"
+            onmouseout="this.style.transform='scale(1)'"
+        >
+
+        <!-- Dark Gradient Overlay -->
+        <div style="
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                to bottom,
+                rgba(0,0,0,0.15),
+                rgba(0,0,0,0.75)
+            );
+        "></div>
+
+        <!-- Floating Label -->
+        <span style="
+            position: absolute;
+            bottom: 16px;
+            left: 16px;
+            font-size: 0.75rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.85);
+        ">
+            Academic Foundation
+        </span>
+    </div>
+
+    <!-- Content -->
+    <div style="padding: 1.6rem;">
+        <h3 style="font-size: 1.7rem; margin-bottom: 0.8rem;">
+            Secondary & Higher Secondary Education
+        </h3>
+
+        <p style="color: var(--text-muted); margin-bottom: 1.4rem; line-height: 1.6;">
+            Completed secondary and higher secondary education at
+            <strong>Malda Umesh Chandra Bastuhara Vidyalaya</strong> (Classes V–XII),
+            where academic discipline, critical thinking, and long-term intellectual foundations were formed.
+        </p>
+
+        <a href="#education"
+           class="btn btn-secondary"
+           style="
+                padding: 0.7rem 2.2rem;
+                border-radius: 999px;
+                letter-spacing: 0.05em;
+                color: #fff ;
+           ">
+            View Details
+        </a>
+    </div>
+
+
+
+
+</div>
+
+  <div class="service-card animate-on-scroll"
+     style="
+        position: relative;
+       overflow: hidden;
+       border-radius: 20px;
+       background: #000000;
+       border: 1px solid #393c41;
+       box-shadow: 0 0 0 3px #11161f;
+       transition: all 0.2s cubic-bezier(0.3, 0.8, 0.5, 0.5);
+       font-family: 'Hanken Grotesk', sans-serif;
+       color: white;
+       width: 100%;
+       max-width: 380px;
+     "
+     id="premium-card"
+     onmouseover="this.style.boxShadow='0 0 0 3px #1f2839'; this.style.transform='scale(1.02)';"
+     onmouseout="this.style.boxShadow='0 0 0 3px #11161f'; this.style.transform='scale(1)';"
+
+     onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 30px 80px rgba(0,0,0,0.45)'"
+     onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'"
+>
+
+    <!-- Image Section -->
+    <div style="position: relative; width: 100%; height: 200px; overflow: hidden;">
+        <img
+            src="./jncldn60717e63509c0.jpg"
+            alt="Malda Umesh Chandra Bastuhara Vidyalaya"
+            style="
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                transition: transform 0.6s ease;
+            "
+            onmouseover="this.style.transform='scale(1.08)'"
+            onmouseout="this.style.transform='scale(1)'"
+        >
+
+        <!-- Dark Gradient Overlay -->
+        <div style="
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                to bottom,
+                rgba(0,0,0,0.15),
+                rgba(0,0,0,0.75)
+            );
+        "></div>
+
+        <!-- Floating Label -->
+        <span style="
+            position: absolute;
+            bottom: 16px;
+            left: 16px;
+            font-size: 0.75rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.85);
+        ">
+            Academic Foundation
+        </span>
+    </div>
+
+    <!-- Content -->
+    <div style="padding: 1.6rem;">
+        <h3 style="font-size: 1.7rem; margin-bottom: 0.8rem;">
+            DCA (Computer Applications)
+        </h3>
+
+        <p style="color: var(--text-muted); margin-bottom: 1.4rem; line-height: 1.6;">
+            equipped with solid knowledge of computer fundamentals,
+    office productivity tools, and essential programming concepts to support modern digital workflows.
+</p>
+        </p>
+
+        <a href="#education"
+           class="btn btn-secondary"
+           style="
+                padding: 0.7rem 2.2rem;
+                border-radius: 999px;
+                letter-spacing: 0.05em;
+                color: #fff;
+           ">
+            View Details
+        </a>
+    </div>
+
+
+
+
+
+</div>
+
+
+  <div class="service-card animate-on-scroll"
+     style="
+        position: relative;
+       overflow: hidden;
+       border-radius: 20px;
+       background: #000000;
+       border: 1px solid #393c41;
+       box-shadow: 0 0 0 3px #11161f;
+       transition: all 0.2s cubic-bezier(0.3, 0.8, 0.5, 0.5);
+       font-family: 'Hanken Grotesk', sans-serif;
+       color: white;
+       width: 100%;
+       max-width: 380px;
+     "
+     id="premium-card"
+     onmouseover="this.style.boxShadow='0 0 0 3px #1f2839'; this.style.transform='scale(1.02)';"
+     onmouseout="this.style.boxShadow='0 0 0 3px #11161f'; this.style.transform='scale(1)';"
+
+     onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 30px 80px rgba(0,0,0,0.45)'"
+     onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'"
+>
+
+    <!-- Image Section -->
+    <div style="position: relative; width: 100%; height: 200px; overflow: hidden;">
+        <img
+            src="./Astrologer.png"
+            alt="Malda Umesh Chandra Bastuhara Vidyalaya"
+            style="
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                transition: transform 0.6s ease;
+            "
+            onmouseover="this.style.transform='scale(1.08)'"
+            onmouseout="this.style.transform='scale(1)'"
+        >
+
+        <!-- Dark Gradient Overlay -->
+        <div style="
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                to bottom,
+                rgba(0,0,0,0.15),
+                rgba(0,0,0,0.75)
+            );
+        "></div>
+
+        <!-- Floating Label -->
+        <span style="
+            position: absolute;
+            bottom: 16px;
+            left: 16px;
+            font-size: 0.75rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.85);
+        ">
+            Academic Foundation
+        </span>
+    </div>
+
+    <!-- Content -->
+    <div style="padding: 1.6rem;">
+        <h3 style="font-size: 1.7rem; margin-bottom: 0.8rem;">
+            Astrologer | 2.6 Years of Dedicated Study
+        </h3>
+
+        <p style="color: var(--text-muted); margin-bottom: 1.4rem; line-height: 1.6;">
+            Astrologer | 2.6 Years of Dedicated Study
+Specialized in Vedic Astrology, Palmistry & Vastu Shastra
+Deep analysis of Planets, Houses & Life Patterns
+Guiding you towards clarity, growth & destiny alignment (2025)
+        </p>
+
+        <a href="#education"
+           class="btn btn-secondary"
+           style="
+                padding: 0.7rem 2.2rem;
+                border-radius: 999px;
+                letter-spacing: 0.05em;
+                color: #fff;
+           ">
+            View Details
+        </a>
+    </div>
+
+            </div>
+        </div>
+    </section>
+
+
+
+<!-- Achievements Section -->
+
+
+
+
+<!-- Books Collection Section -->
+<section style="padding: 60px 0; font-family: 'Roboto', sans-serif; background: transparent;">
+    <div style="max-width: 1368px; margin: 0 auto; padding: 0 20px;">
+        <!-- Section Header -->
+        <div style="text-align: center; margin-bottom: 40px;">
+            <h2 style="font-size: 36px; color: #333; margin-bottom: 10px; font-weight: 500;">My Books Collection</h2>
+            <p style="color: #666; font-size: 16px;">Explore my published works and writings</p>
+        </div>
+
+        <!-- The Modal (hidden by default) -->
+        <div id="contactModal" style="display:none; position:fixed; z-index:1000; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.4); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);">
+          <div style="background:#fff; margin:10% auto; padding:30px; border-radius:12px; width:90%; max-width:480px; position:relative; box-shadow:0 8px 32px rgba(0,0,0,0.3);">
+            <!-- Close button -->
+            <span onclick="document.getElementById('contactModal').style.display='none'"
+                  style="position:absolute; right:20px; top:10px; font-size:36px; cursor:pointer; color:#aaa;">
+              ×
+            </span>
+            <h2>Contact Me</h2>
+            <form action="https://formsubmit.co/sarkarbarshan4@gmail.com" method="POST" style="display:flex; flex-direction:column; gap:16px;">
+              <input type="text" name="name" placeholder="Your Name" required style="padding:12px; border:1px solid #ccc; border-radius:6px;">
+              <input type="email" name="email" placeholder="Your Email" required style="padding:12px; border:1px solid #ccc; border-radius:6px;">
+              <textarea name="message" placeholder="Your Message" required style="padding:12px; border:1px solid #ccc; border-radius:6px; min-height:120px;"></textarea>
+              <button type="submit" style="padding:12px; background:#000; color:white; border:none; border-radius:6px; cursor:pointer;">Send Message</button>
+            </form>
+            <p style="font-size:13px; color:#555; text-align:center; margin-top:20px;">
+              Messages will be sent to: <strong>sarkarbarshan4@gmail.com</strong><br>
+              Check your <strong>Spam folder</strong> if not in Inbox!
+            </p>
+          </div>
+        </div>
+
+        <!-- Product Grid - Modified for single column on mobile -->
+        <div class="product-grid" style="display: grid;
+                                        grid-template-columns: repeat(1, 1fr);
+                                        gap: 20px;
+                                        width: 100%;">
+
+            <!-- Book 1 -->
+            <div class="product-card" style="overflow: hidden; width: 100%; max-width: 328px; margin: 0 auto; border: solid 1px #e0e0e0; border-radius: 8px; background: white; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                <div class="image-container" style="width: 100%; aspect-ratio: 3/4; background-color: #f4c5c5; position: relative; overflow: hidden;">
+                    <img src="./A GIRL WITHOUT FACE.png" width="328" height="440" alt="Book Cover" style="width: 100%; height: auto; max-width: 100%; display: block;">
+                </div>
+                <div class="product-details" style="padding: 16px;">
+                    <h2 style="font-size: 20px; margin-bottom: 8px; color: #333; font-weight: 500;">A GIRL WITHOUT FACE </h2>
+                    <p style="color: #666; font-size: 14px; margin-bottom: 12px; line-height: 1.5;">In a realm where shadows whisper and stars guard forbidden secrets, she walks without a face — yet everyone fears her gaze. Born from magic, wrapped in mystery, her identity is hidden beyond time and memory. Is she a curse, a guardian, or the key to a forgotten prophecy?</p>
+                    <button class="btnx"
+                            onclick="document.getElementById('contactModal').style.display='block';"
+                            style="font-size:12px; color:#fff; font-weight:100; padding:12px 24px; border:none; background:#000; border-radius:20px; cursor:pointer; transition:background-color 0.3s ease;"
+                            onmouseover="this.style.backgroundColor='#333333'"
+                            onmouseout="this.style.backgroundColor='#000000'">
+                      READ NOW
+                    </button>
+                </div>
+            </div>
+
+            <!-- Book 2 -->
+            <div class="product-card" style="overflow: hidden; width: 100%; max-width: 328px; margin: 0 auto; border: solid 1px #e0e0e0; border-radius: 8px; background: white; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                <div class="image-container" style="width: 100%; aspect-ratio: 3/4; background-color: #f4c5c5; position: relative; overflow: hidden;">
+                    <img src="./THINKING OF CALCULATIONS.png" width="328" height="440" alt="Book Cover" style="width: 100%; height: auto; max-width: 100%; display: block;">
+                </div>
+                <div class="product-details" style="padding: 16px;">
+                    <h2 style="font-size: 20px; margin-bottom: 8px; color: #333; font-weight: 500;">THINKING OF CALCULATIONS IN VEDIC ASTROLOGY</h2>
+                    <p style="color: #666; font-size: 14px; margin-bottom: 12px; line-height: 1.5;">A deep analytical study of planetary degrees, dashas, yogas, and chart strength through precise Vedic calculations. Intermediate-level structured interpretation with logical reasoning.</p>
+                    <button class="btnx"
+                            onclick="document.getElementById('contactModal').style.display='block';"
+                            style="font-size:12px; color:#fff; font-weight:100; padding:12px 24px; border:none; background:#000; border-radius:20px; cursor:pointer; transition:background-color 0.3s ease;"
+                            onmouseover="this.style.backgroundColor='#333333'"
+                            onmouseout="this.style.backgroundColor='#000000'">
+                      READ NOW
+                    </button>
+                </div>
+            </div>
+
+            <!-- Book 3 -->
+            <div class="product-card" style="overflow: hidden; width: 100%; max-width: 328px; margin: 0 auto; border: solid 1px #e0e0e0; border-radius: 8px; background: white; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                <div class="image-container" style="width: 100%; aspect-ratio: 3/4; background-color: #f4c5c5; position: relative; overflow: hidden;">
+                    <img src="./Advanced Data Structure & Algorithm.png" width="328" height="440" alt="Book Cover" style="width: 100%; height: auto; max-width: 100%; display: block;">
+                </div>
+                <div class="product-details" style="padding: 16px;">
+                    <h2 style="font-size: 20px; margin-bottom: 8px; color: #333; font-weight: 500;">ADVANCED DATA STRUCTURE & ALGORITHMS</h2>
+                    <p style="color: #666; font-size: 14px; margin-bottom: 12px; line-height: 1.5;">A deep analytical study of complex data structures, optimized algorithms, and problem-solving strategies. Focused on time-space complexity, logic building, and real-world computational efficiency.</p>
+                    <button style="font-size: 12px; color: #ff0000; font-weight: 100; padding: 12px; border: none; background-color: #000000; border-radius: 20px; "> UNAVAILABLE </button>
+                </div>
+            </div>
+
+            <!-- Book 4 -->
+            <div class="product-card" style="overflow: hidden; width: 100%; max-width: 328px; margin: 0 auto; border: solid 1px #e0e0e0; border-radius: 8px; background: white; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                <div class="image-container" style="width: 100%; aspect-ratio: 3/4; background-color: #f4c5c5; position: relative; overflow: hidden;">
+                    <img src="./BASICS OF.png" width="328" height="440" alt="Book Cover" style="width: 100%; height: auto; max-width: 100%; display: block;">
+                </div>
+                <div class="product-details" style="padding: 16px;">
+                    <h2 style="font-size: 20px; margin-bottom: 8px; color: #333; font-weight: 500;">BASICS OF DIFFERENTIATION</h2>
+                    <p style="color: #666; font-size: 14px; margin-bottom: 12px; line-height: 1.5;">A clear introduction to the fundamental concepts of differentiation, covering limits, derivatives, and basic rules. Focused on building strong conceptual understanding and problem-solving skills.</p>
+                    <button class="btnx"
+                            onclick="document.getElementById('contactModal').style.display='block';"
+                            style="font-size:12px; color:#fff; font-weight:100; padding:12px 24px; border:none; background:#000; border-radius:20px; cursor:pointer; transition:background-color 0.3s ease;"
+                            onmouseover="this.style.backgroundColor='#333333'"
+                            onmouseout="this.style.backgroundColor='#000000'">
+                      READ NOW
+                    </button>
+                </div>
+            </div>
+
+            <!-- Book 5 -->
+            <div class="product-card" style="overflow: hidden; width: 100%; max-width: 328px; margin: 0 auto; border: solid 1px #e0e0e0; border-radius: 8px; background: white; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                <div class="image-container" style="width: 100%; aspect-ratio: 3/4; background-color: #f4c5c5; position: relative; overflow: hidden;">
+                    <img src="./GARUR SAILI CSS COURSE.png" width="328" height="440" alt="Book Cover" style="width: 100%; height: auto; max-width: 100%; display: block;">
+                </div>
+                <div class="product-details" style="padding: 16px;">
+                    <h2 style="font-size: 20px; margin-bottom: 8px; color: #333; font-weight: 500;">Frontend Architecture</h2>
+                    <p style="color: #666; font-size: 14px; margin-bottom: 12px; line-height: 1.5;">Scalable and maintainable CSS and JavaScript structures.</p>
+                    <button class="btnx"
+                            onclick="document.getElementById('contactModal').style.display='block';"
+                            style="font-size:12px; color:#fff; font-weight:100; padding:12px 24px; border:none; background:#000; border-radius:20px; cursor:pointer; transition:background-color 0.3s ease;"
+                            onmouseover="this.style.backgroundColor='#333333'"
+                            onmouseout="this.style.backgroundColor='#000000'">
+                      WATCH NOW
+                    </button>
+                </div>
+            </div>
+
+
+             <div class="product-card" style="overflow: hidden; width: 100%; max-width: 328px; margin: 0 auto; border: solid 1px #e0e0e0; border-radius: 8px; background: white; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                <div class="image-container" style="width: 100%; aspect-ratio: 3/4; background-color: #f4c5c5; position: relative; overflow: hidden;">
+                    <img src="./GI/Screenshot_20231112_001047_Chrome.jpg" width="328" height="440" alt="Book Cover" style="width: 100%; height: auto; max-width: 100%; display: block;">
+                </div>
+                <div class="product-details" style="padding: 16px;">
+                    <h2 style="font-size: 20px; margin-bottom: 8px; color: #333; font-weight: 500;">WRITTEN IN 2023</h2>
+                    <p style="color: #666; font-size: 14px; margin-bottom: 12px; line-height: 1.5;">A IMAGINARY NUMBER OF THINKING </p>
+                    <button class="btnx"
+                            onclick="document.getElementById('contactModal').style.display='block';"
+                            style="font-size:12px; color:#fff; font-weight:100; padding:12px 24px; border:none; background:#000; border-radius:20px; cursor:pointer; transition:background-color 0.3s ease;"
+                            onmouseover="this.style.backgroundColor='#333333'"
+                            onmouseout="this.style.backgroundColor='#000000'">
+                      UNAVAILABLE
+                    </button>
+                </div>
+            </div>
+
+
+
+
+              <div class="product-card" style="overflow: hidden; width: 100%; max-width: 328px; margin: 0 auto; border: solid 1px #e0e0e0; border-radius: 8px; background: white; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                <div class="image-container" style="width: 100%; aspect-ratio: 3/4; background-color: #f4c5c5; position: relative; overflow: hidden;">
+                    <img src="./GI/" width="328" height="440" alt="Book Cover" style="width: 100%; height: auto; max-width: 100%; display: block;">
+                </div>
+                <div class="product-details" style="padding: 16px;">
+                    <h2 style="font-size: 20px; margin-bottom: 8px; color: #333; font-weight: 500;">WRITTEN IN 2020</h2>
+                    <p style="color: #666; font-size: 14px; margin-bottom: 12px; line-height: 1.5;">FLASK </p>
+                    <button class="btnx"
+                            onclick="document.getElementById('contactModal').style.display='block';"
+                            style="font-size:12px; color:#fff; font-weight:100; padding:12px 24px; border:none; background:#000; border-radius:20px; cursor:pointer; transition:background-color 0.3s ease;"
+                            onmouseover="this.style.backgroundColor='#333333'"
+                            onmouseout="this.style.backgroundColor='#000000'">
+                      UNAVAILABLE
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Media Queries -->
+        <style>
+            @media (min-width: 640px) {
+                .product-grid {
+                    grid-template-columns: repeat(3, 1fr) !important;
+                }
+            }
+            @media (min-width: 1024px) {
+                .product-grid {
+                    grid-template-columns: repeat(4, 1fr) !important;
+                }
+            }
+        </style>
+    </div>
+</section>
+
+
+    <!-- Testimonials -->
+
+<!-- ===== SECTION: POSTS, POSITION & LEADERSHIP ===== -->
+<!-- Tailwind-style inline CSS - No external classes, pure inline styles -->
+
+<div style="margin: 48px 0; padding: 20px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+
+    <!-- Category Header -->
+    <div style="width: 100%; text-align: center; margin-bottom: 24px;">
+        <span style="font-size: 40px; font-weight: 600; color: #1e293b; letter-spacing: -0.02em; display: inline-block; border-bottom: 4px solid #3b82f6; padding-bottom: 12px;">
+            📋 Posts, Position & Leadership
+        </span>
+    </div>
+    <br/>
+
+    <!-- Cards Container - Flexbox Grid -->
+    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; max-width: 1400px; margin: 0 auto;">
+
+        <!-- ========== CARD 1: Student Council President ========== -->
+       <div style="width: 300px; position: relative; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05); transition: all 0.3s; border-radius: 12px; background: linear-gradient(145deg, #0f766e, #1e40af); display: inline-block; vertical-align: top; min-height: 300px;"
+     onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 20px 25px -5px rgba(0,0,0,0.2), 0 10px 10px -5px rgba(0,0,0,0.1)'"
+     onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05)'">
+
+    <div style="padding: 28px 24px; color: white;">
+        <!-- Title with Icon -->
+        <span style="font-size: 24px; font-weight: 700; font-family: 'Open Sans', sans-serif; display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+            <i class="fas fa-crown" style="font-size: 26px;"></i>
+            Developer of GarurSaili CSS
+        </span>
+
+        <!-- Position Badge -->
+        <span style="display: inline-block; background: rgba(255,255,255,0.2); padding: 6px 16px; border-radius: 9999px; font-size: 13px; font-weight: 600; margin: 8px 0 12px; backdrop-filter: blur(4px);">
+             2025
+        </span>
+
+        <!-- Description -->
+        <p style="line-height: 1.7; font-size: 15px; color: rgba(255,255,255,0.95); margin: 16px 0; opacity: 0.95;">
+            Built India's 1st dynamic atomic hybrid CSS framework. Lightweight (2.5kB), utility-first with atomic architecture. Used by 200+ developers .
+        </p>
+
+        <!-- Date/Metric Tag -->
+        <span style="display: block; font-size: 13px; opacity: 0.85; margin-top: 16px; display: flex; align-items: center; gap: 6px;">
+            <i class="far fa-calendar-alt"></i> v1.2.0 · Dec 2025
+        </span>
+    </div>
+
+    <!-- Card Link/Button -->
+    <div style="padding: 20px 24px 28px; border-top: 1px solid rgba(255,255,255,0.2); width: 100%;">
+        <a href="#" style="text-decoration: none; color: white; font-weight: 600; font-size: 15px; position: relative; padding: 8px 0; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s;"
+           onmouseover="this.style.gap='12px'; this.querySelector('span').style.borderBottom='2px solid white'; this.querySelector('span').style.width='100%'; this.querySelector('span').style.left='0'"
+           onmouseout="this.style.gap='8px'; this.querySelector('span').style.width='0'; this.querySelector('span').style.left='50%'">
+            <span style="position: relative;">View Framework</span>
+            <span style="position: absolute; bottom: 0; left: 50%; width: 0; height: 2px; background: white; transition: all 0.3s ease;"></span>
+            <i class="fas fa-arrow-right" style="font-size: 12px;"></i>
+        </a>
+    </div>
+</div>
+
+        <!-- ========== CARD 2: Technical Head ========== -->
+        <div style="width: 300px; position: relative; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05); transition: all 0.3s; border-radius: 12px; background: linear-gradient(145deg, #a31b4b, #d53a5c); display: inline-block; vertical-align: top; min-height: 300px;"
+     onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 20px 25px -5px rgba(0,0,0,0.2), 0 10px 10px -5px rgba(0,0,0,0.1)'"
+     onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05)'">
+
+    <div style="padding: 28px 24px; color: white;">
+        <span style="font-size: 24px; font-weight: 700; font-family: 'Open Sans', sans-serif; display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+            <i class="fas fa-users" style="font-size: 26px;"></i>
+            Hackathon Team Leader · GMDCSA
+        </span>
+        <span style="display: inline-block; background: rgba(255,255,255,0.2); padding: 6px 16px; border-radius: 9999px; font-size: 13px; font-weight: 600; margin: 8px 0 12px; backdrop-filter: blur(4px);">
+            ⚡ 2024 - 2025
+        </span>
+        <p style="line-height: 1.7; font-size: 15px; color: rgba(255,255,255,0.95); margin: 16px 0;">
+            Led the GMDCSA team through hackathons, coordinated project development, and guided members in AI & web technologies.
+        </p>
+        <span style="display: block; font-size: 13px; opacity: 0.85; margin-top: 16px; display: flex; align-items: center; gap: 6px;">
+            <i class="fas fa-trophy"></i>  Hackathon  Leader
+        </span>
+    </div>
+    <div style="padding: 20px 24px 28px; border-top: 1px solid rgba(255,255,255,0.2);">
+        <a href="#" style="text-decoration: none; color: white; font-weight: 600; font-size: 15px; position: relative; padding: 8px 0; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s;"
+           onmouseover="this.style.gap='12px'; this.querySelector('span').style.borderBottom='2px solid white'; this.querySelector('span').style.width='100%'; this.querySelector('span').style.left='0'"
+           onmouseout="this.style.gap='8px'; this.querySelector('span').style.width='0'; this.querySelector('span').style.left='50%'">
+            <span style="position: relative;">Team Projects</span>
+            <span style="position: absolute; bottom: 0; left: 50%; width: 0; height: 2px; background: white; transition: all 0.3s ease;"></span>
+            <i class="fas fa-arrow-right" style="font-size: 12px;"></i>
+        </a>
+    </div>
+</div>
+
+        <!-- ========== CARD 3: Editorial Head ========== -->
+      <div style="width: 300px; position: relative; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05); transition: all 0.3s; border-radius: 12px; background: white; border: 1px solid #f1f5f9; display: inline-block; vertical-align: top; min-height: 300px;"
+     onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 20px 25px -5px rgba(0,0,0,0.15), 0 10px 10px -5px rgba(0,0,0,0.05)'"
+     onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05)'">
+
+    <div style="padding: 28px 24px;">
+        <span style="font-size: 24px; font-weight: 700; font-family: 'Open Sans', sans-serif; display: flex; align-items: center; gap: 12px; margin-bottom: 12px; color: #1e293b;">
+            <i class="fas fa-pen-fancy" style="font-size: 26px; color: #2563eb;"></i>
+            Local Tech Head + Consultant
+        </span>
+        <span style="display: inline-block; background: #1e293b; padding: 6px 16px; border-radius: 9999px; font-size: 13px; font-weight: 600; margin: 8px 0 12px; color: white;">
+            2024 - 2025
+        </span>
+        <p style="line-height: 1.7; font-size: 15px; color: #475569; margin: 16px 0;">
+            Lead local tech initiatives and provide strategic consulting . Mentor junior developers and drive technical innovation for  solutions.
+        </p>
+        <span style="display: block; font-size: 13px; color: #64748b; margin-top: 16px; display: flex; align-items: center; gap: 6px;">
+            <i class="far fa-newspaper"></i> local lead
+        </span>
+    </div>
+    <div style="padding: 20px 24px 28px; border-top: 1px solid #e2e8f0;">
+        <a href="#" style="text-decoration: none; color: #2563eb; font-weight: 600; font-size: 15px; position: relative; padding: 8px 0; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s;"
+           onmouseover="this.style.gap='12px'; this.querySelector('span').style.borderBottom='2px solid #2563eb'; this.querySelector('span').style.width='100%'; this.querySelector('span').style.left='0'"
+           onmouseout="this.style.gap='8px'; this.querySelector('span').style.width='0'; this.querySelector('span').style.left='50%'">
+            <span style="position: relative;">View Work</span>
+            <span style="position: absolute; bottom: 0; left: 50%; width: 0; height: 2px; background: #2563eb; transition: all 0.3s ease;"></span>
+            <i class="fas fa-arrow-right" style="font-size: 12px;"></i>
+        </a>
+    </div>
+</div>
+
+        <!-- ========== CARD 4: Event Coordinator ========== -->
+        <!-- <div style="width: 300px; position: relative; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05); transition: all 0.3s; border-radius: 12px; background: linear-gradient(145deg, #0f172a, #1e293b); display: inline-block; vertical-align: top; min-height: 300px;"
+             onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 20px 25px -5px rgba(0,0,0,0.3), 0 10px 10px -5px rgba(0,0,0,0.2)'"
+             onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05)'">
+
+            <div style="padding: 28px 24px; color: #f8fafc;">
+                <span style="font-size: 24px; font-weight: 700; font-family: 'Open Sans', sans-serif; display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+                    <i class="fas fa-calendar-check" style="font-size: 26px;"></i>
+                    Event Coordinator
+                </span>
+                <span style="display: inline-block; background: rgba(255,255,255,0.15); padding: 6px 16px; border-radius: 9999px; font-size: 13px; font-weight: 600; margin: 8px 0 12px; backdrop-filter: blur(4px);">
+                    🎪 2023 - 2024
+                </span>
+                <p style="line-height: 1.7; font-size: 15px; color: rgba(248,250,252,0.95); margin: 16px 0;">
+                    Coordinated "TechFest 2024" with 1000+ participants. Managed ₹2.5L budget, 15+ events, and 30+ volunteers.
+                </p>
+                <span style="display: block; font-size: 13px; opacity: 0.85; margin-top: 16px; display: flex; align-items: center; gap: 6px;">
+                    <i class="fas fa-users"></i> 1000+ Participants
+                </span>
+            </div>
+            <div style="padding: 20px 24px 28px; border-top: 1px solid rgba(255,255,255,0.15);">
+                <a href="#" style="text-decoration: none; color: white; font-weight: 600; font-size: 15px; position: relative; padding: 8px 0; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s;"
+                   onmouseover="this.style.gap='12px'; this.querySelector('span').style.borderBottom='2px solid white'; this.querySelector('span').style.width='100%'; this.querySelector('span').style.left='0'"
+                   onmouseout="this.style.gap='8px'; this.querySelector('span').style.width='0'; this.querySelector('span').style.left='50%'">
+                    <span style="position: relative;">View Details</span>
+                    <span style="position: absolute; bottom: 0; left: 50%; width: 0; height: 2px; background: white; transition: all 0.3s ease;"></span>
+                    <i class="fas fa-arrow-right" style="font-size: 12px;"></i>
+                </a>
+            </div>
+        </div> -->
+
+        <!-- ========== CARD 5: Placement Representative ========== -->
+        <!-- <div style="width: 300px; position: relative; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05); transition: all 0.3s; border-radius: 12px; background: linear-gradient(145deg, #0b4f6c, #1a7f7a); display: inline-block; vertical-align: top; min-height: 300px;"
+             onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 20px 25px -5px rgba(0,0,0,0.2), 0 10px 10px -5px rgba(0,0,0,0.1)'"
+             onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05)'">
+
+            <div style="padding: 28px 24px; color: white;">
+                <span style="font-size: 24px; font-weight: 700; font-family: 'Open Sans', sans-serif; display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+                    <i class="fas fa-briefcase" style="font-size: 26px;"></i>
+                    Placement Rep
+                </span>
+                <span style="display: inline-block; background: rgba(255,255,255,0.2); padding: 6px 16px; border-radius: 9999px; font-size: 13px; font-weight: 600; margin: 8px 0 12px;">
+                    💼 2024 - Present
+                </span>
+                <p style="line-height: 1.7; font-size: 15px; color: rgba(255,255,255,0.95); margin: 16px 0;">
+                    Bridge between training cell and BCA students. Facilitated 8 campus drives, assisted 50+ students in placements.
+                </p>
+                <span style="display: block; font-size: 13px; opacity: 0.85; margin-top: 16px; display: flex; align-items: center; gap: 6px;">
+                    <i class="fas fa-handshake"></i> 8+ Companies
+                </span>
+            </div>
+            <div style="padding: 20px 24px 28px; border-top: 1px solid rgba(255,255,255,0.2);">
+                <a href="#" style="text-decoration: none; color: white; font-weight: 600; font-size: 15px; position: relative; padding: 8px 0; display: inline-flex; align-items: center; gap: 8px;"
+                   onmouseover="this.style.gap='12px'; this.querySelector('span').style.borderBottom='2px solid white'; this.querySelector('span').style.width='100%'; this.querySelector('span').style.left='0'"
+                   onmouseout="this.style.gap='8px'; this.querySelector('span').style.width='0'; this.querySelector('span').style.left='50%'">
+                    <span style="position: relative;">View Stats</span>
+                    <span style="position: absolute; bottom: 0; left: 50%; width: 0; height: 2px; background: white; transition: all 0.3s ease;"></span>
+                    <i class="fas fa-arrow-right" style="font-size: 12px;"></i>
+                </a>
+            </div>
+        </div> -->
+
+        <!-- ========== CARD 6: NSS Leader ========== -->
+        <!-- <div style="width: 300px; position: relative; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05); transition: all 0.3s; border-radius: 12px; background: linear-gradient(145deg, #b91c1c, #dc2626); display: inline-block; vertical-align: top; min-height: 300px;"
+             onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 20px 25px -5px rgba(0,0,0,0.2), 0 10px 10px -5px rgba(0,0,0,0.1)'"
+             onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05)'">
+
+            <div style="padding: 28px 24px; color: white;">
+                <span style="font-size: 24px; font-weight: 700; font-family: 'Open Sans', sans-serif; display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+                    <i class="fas fa-hands-helping" style="font-size: 26px;"></i>
+                    NSS Leader
+                </span>
+                <span style="display: inline-block; background: rgba(255,255,255,0.2); padding: 6px 16px; border-radius: 9999px; font-size: 13px; font-weight: 600; margin: 8px 0 12px;">
+                    🤝 2022 - 2024
+                </span>
+                <p style="line-height: 1.7; font-size: 15px; color: rgba(255,255,255,0.95); margin: 16px 0;">
+                    Led 40+ volunteers in 7-day camp, organized blood donation drive (200+ units), literacy programs in 3 villages.
+                </p>
+                <span style="display: block; font-size: 13px; opacity: 0.85; margin-top: 16px; display: flex; align-items: center; gap: 6px;">
+                    <i class="fas fa-heart"></i> 500+ Service Hours
+                </span>
+            </div>
+            <div style="padding: 20px 24px 28px; border-top: 1px solid rgba(255,255,255,0.2);">
+                <a href="#" style="text-decoration: none; color: white; font-weight: 600; font-size: 15px; position: relative; padding: 8px 0; display: inline-flex; align-items: center; gap: 8px;"
+                   onmouseover="this.style.gap='12px'; this.querySelector('span').style.borderBottom='2px solid white'; this.querySelector('span').style.width='100%'; this.querySelector('span').style.left='0'"
+                   onmouseout="this.style.gap='8px'; this.querySelector('span').style.width='0'; this.querySelector('span').style.left='50%'">
+                    <span style="position: relative;">View Initiatives</span>
+                    <span style="position: absolute; bottom: 0; left: 50%; width: 0; height: 2px; background: white; transition: all 0.3s ease;"></span>
+                    <i class="fas fa-arrow-right" style="font-size: 12px;"></i>
+                </a>
+            </div>
+        </div> -->
+
+        <!-- ========== CARD 7: Research Coordinator ========== -->
+        <!-- <div style="width: 300px; position: relative; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05); transition: all 0.3s; border-radius: 12px; background: white; border: 1px solid #f1f5f9; display: inline-block; vertical-align: top; min-height: 300px;"
+             onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 20px 25px -5px rgba(0,0,0,0.15), 0 10px 10px -5px rgba(0,0,0,0.05)'"
+             onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05)'">
+
+            <div style="padding: 28px 24px;">
+                <span style="font-size: 24px; font-weight: 700; font-family: 'Open Sans', sans-serif; display: flex; align-items: center; gap: 12px; margin-bottom: 12px; color: #0f172a;">
+                    <i class="fas fa-microscope" style="font-size: 26px; color: #7e22ce;"></i>
+                    Research Coord.
+                </span>
+                <span style="display: inline-block; background: #334155; padding: 6px 16px; border-radius: 9999px; font-size: 13px; font-weight: 600; margin: 8px 0 12px; color: white;">
+                    🔬 2023 - 2024
+                </span>
+                <p style="line-height: 1.7; font-size: 15px; color: #334155; margin: 16px 0;">
+                    Coordinated student research forum, guided 6 papers, 2 presented at international conferences, 1 IEEE publication.
+                </p>
+                <span style="display: block; font-size: 13px; color: #475569; margin-top: 16px; display: flex; align-items: center; gap: 6px;">
+                    <i class="fas fa-file-alt"></i> 3 Publications
+                </span>
+            </div>
+            <div style="padding: 20px 24px 28px; border-top: 1px solid #e2e8f0;">
+                <a href="#" style="text-decoration: none; color: #7e22ce; font-weight: 600; font-size: 15px; position: relative; padding: 8px 0; display: inline-flex; align-items: center; gap: 8px;"
+                   onmouseover="this.style.gap='12px'; this.querySelector('span').style.borderBottom='2px solid #7e22ce'; this.querySelector('span').style.width='100%'; this.querySelector('span').style.left='0'"
+                   onmouseout="this.style.gap='8px'; this.querySelector('span').style.width='0'; this.querySelector('span').style.left='50%'">
+                    <span style="position: relative;">Read Papers</span>
+                    <span style="position: absolute; bottom: 0; left: 50%; width: 0; height: 2px; background: #7e22ce; transition: all 0.3s ease;"></span>
+                    <i class="fas fa-arrow-right" style="font-size: 12px;"></i>
+                </a>
+            </div>
+        </div> -->
+
+        <!-- ========== CARD 8: Sports Secretary ========== -->
+        <!-- <div style="width: 300px; position: relative; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05); transition: all 0.3s; border-radius: 12px; background: linear-gradient(145deg, #0b3b5c, #1e4b6e); display: inline-block; vertical-align: top; min-height: 300px;"
+             onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 20px 25px -5px rgba(0,0,0,0.25), 0 10px 10px -5px rgba(0,0,0,0.15)'"
+             onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05)'">
+
+            <div style="padding: 28px 24px; color: white;">
+                <span style="font-size: 24px; font-weight: 700; font-family: 'Open Sans', sans-serif; display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+                    <i class="fas fa-futbol" style="font-size: 26px;"></i>
+                    Sports Secretary
+                </span>
+                <span style="display: inline-block; background: rgba(255,255,255,0.2); padding: 6px 16px; border-radius: 9999px; font-size: 13px; font-weight: 600; margin: 8px 0 12px;">
+                    🏆 2023 - 2024
+                </span>
+                <p style="line-height: 1.7; font-size: 15px; color: rgba(255,255,255,0.95); margin: 16px 0;">
+                    Organized inter-college sports meet with 15+ colleges, 500+ athletes. Managed 25-member organizing committee.
+                </p>
+                <span style="display: block; font-size: 13px; opacity: 0.85; margin-top: 16px; display: flex; align-items: center; gap: 6px;">
+                    <i class="fas fa-medal"></i> 12+ Events
+                </span>
+            </div>
+            <div style="padding: 20px 24px 28px; border-top: 1px solid rgba(255,255,255,0.15);">
+                <a href="#" style="text-decoration: none; color: white; font-weight: 600; font-size: 15px; position: relative; padding: 8px 0; display: inline-flex; align-items: center; gap: 8px;"
+                   onmouseover="this.style.gap='12px'; this.querySelector('span').style.borderBottom='2px solid white'; this.querySelector('span').style.width='100%'; this.querySelector('span').style.left='0'"
+                   onmouseout="this.style.gap='8px'; this.querySelector('span').style.width='0'; this.querySelector('span').style.left='50%'">
+                    <span style="position: relative;">View Events</span>
+                    <span style="position: absolute; bottom: 0; left: 50%; width: 0; height: 2px; background: white; transition: all 0.3s ease;"></span>
+                    <i class="fas fa-arrow-right" style="font-size: 12px;"></i>
+                </a>
+            </div>
+        </div> -->
+
+    </div>
+
+    <br/>
+
+    <!-- Summary Footer - Tailwind Style -->
+    <div style="display: flex; justify-content: center; margin-top: 40px;">
+        <div style="background: linear-gradient(145deg, #f8fafc, #f1f5f9); padding: 16px 36px; border-radius: 9999px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); border: 1px solid rgba(255,255,255,0.8); display: flex; align-items: center; gap: 12px; flex-wrap: wrap; justify-content: center;">
+            <span style="display: flex; align-items: center; gap: 8px; color: #0f172a; font-weight: 500;">
+                <i class="fas fa-tasks" style="color: #3b82f6; font-size: 18px;"></i>
+                <span style="font-weight: 700;">6 Leadership Positions</span>
+            </span>
+            <span style="color: #334155;">•</span>
+            <span style="display: flex; align-items: center; gap: 8px; color: #0f172a;">
+                <i class="fas fa-calendar-check" style="color: #8b5cf6;"></i>
+                8+ Events
+            </span>
+            <!-- <span style="color: #334155;">•</span>
+            <span style="display: flex; align-items: center; gap: 8px; color: #0f172a;">
+                <i class="fas fa-users" style="color: #ec4899;"></i>
+                2000+ Volunteers
+            </span> -->
+            <!-- <span style="color: #334155;">•</span>
+            <span style="display: flex; align-items: center; gap: 8px; color: #0f172a;">
+                <i class="fas fa-trophy" style="color: #f59e0b;"></i>
+                5000+ Beneficiaries
+            </span> -->
+        </div>
+    </div>
+
+</div>
+<!-- ===== END SECTION ===== -->
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <div class="section-header">
+                <p class="section-subtitle">Get In Touch</p>
+                <h2 class="section-title">Let's Work Together</h2>
+            </div>
+            <div class="contact-container">
+                <div class="contact-info animate-on-scroll">
+                    <h3 style="font-size: 2.2rem; margin-bottom: 2rem; background: var(--gradient-primary); -webkit-background-clip: text; background-clip: text; color: transparent;">Start Your Project</h3>
+                    <p style="margin-bottom: 2rem; color: var(--text-muted);">Ready to bring your vision to life? Let's create something extraordinary together.</p>
+
+                    <div style="display: flex; flex-direction: column; gap: 1.5rem; margin-bottom: 3rem;">
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <div style="width: 50px; height: 50px; border-radius: 50%; background: var(--gradient-primary); display: flex; align-items: center; justify-content: center; color: white;">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div>
+                                <h4>Email</h4>
+                                <p style="color: var(--text-muted);">sarkarbarshan4@gmail.com</p>
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <div style="width: 50px; height: 50px; border-radius: 50%; background: var(--gradient-primary); display: flex; align-items: center; justify-content: center; color: white;">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div>
+                                <h4>Phone</h4>
+                                <p style="color: var(--text-muted);">+91 ----------</p>
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <div style="width: 50px; height: 50px; border-radius: 50%; background: var(--gradient-primary); display: flex; align-items: center; justify-content: center; color: white;">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div>
+                                <h4>Location</h4>
+                                <p style="color: var(--text-muted);">MALDA , WEST BENGAL </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="social-links">
+                        <a href="https://www.linkedin.com/in/barshan-sarkar-0302b42b9?originalSubdomain=in" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="https://github.com/barshansarkar" class="social-link"><i class="fab fa-github"></i></a>
+                        <!-- <a href="#" class="social-link"><i class="fab fa-dribbble"></i></a>
+                        <a href="" class="social-link"><i class="fab fa-behance"></i></a> -->
+                        <a href="https://www.instagram.com/barshansarkar01/" class="social-link"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+
+               <!-- Hanken Grotesk Font (add once in <head>) -->
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- SLEEK & COMPACT MATTE RUSH CONTACT FORM – 100% inline CSS -->
+<div class="contact-form animate-on-scroll" style="
+  background: rgba(15,17,30,0.92);
+  backdrop-filter: blur(22px) saturate(120%);
+  -webkit-backdrop-filter: blur(22px) saturate(120%);
+  border: 1px solid rgba(110,125,255,0.18);
+  border-radius: 26px;
+  padding: 42px 38px;
+  box-shadow:
+    0 20px 60px rgba(0,0,0,0.55),
+    inset 0 1px 0 rgba(255,255,255,0.08);
+  font-family: 'Hanken Grotesk', sans-serif;
+  max-width: 480px;
+  width: 100%;
+">
+
+  <form id="contactForm" style="display: flex; flex-direction: column; gap: 24px;">
+
+    <!-- Name -->
+    <div style="position: relative;">
+      <input
+        type="text"
+        id="name"
+        required
+        style="width: 100%; padding: 20px 22px 8px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.12); border-radius: 18px; color: #f8fafc; font-size: 1.02rem; transition: all 0.35s cubic-bezier(0.4,0,0.2,1);"
+        onfocus="this.style.borderColor='#818cf8'; this.parentElement.querySelector('label').style.top='8px'; this.parentElement.querySelector('label').style.fontSize='0.82rem'; this.parentElement.querySelector('label').style.color='#c4d0ff';"
+        onblur="if(this.value===''){this.style.borderColor='rgba(255,255,255,0.12)'; this.parentElement.querySelector('label').style.top='18px'; this.parentElement.querySelector('label').style.fontSize='1.02rem'; this.parentElement.querySelector('label').style.color='#94a3b8';}"
+      >
+      <label for="name" style="position: absolute; top: 18px; left: 22px; color: #94a3b8; font-size: 1.02rem; pointer-events: none; transition: all 0.35s cubic-bezier(0.4,0,0.2,1);">Your Name</label>
+    </div>
+
+    <!-- Email -->
+    <div style="position: relative;">
+      <input
+        type="email"
+        id="email"
+        required
+        style="width: 100%; padding: 20px 22px 8px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.12); border-radius: 18px; color: #f8fafc; font-size: 1.02rem; transition: all 0.35s cubic-bezier(0.4,0,0.2,1);"
+        onfocus="this.style.borderColor='#818cf8'; this.parentElement.querySelector('label').style.top='8px'; this.parentElement.querySelector('label').style.fontSize='0.82rem'; this.parentElement.querySelector('label').style.color='#c4d0ff';"
+        onblur="if(this.value===''){this.style.borderColor='rgba(255,255,255,0.12)'; this.parentElement.querySelector('label').style.top='18px'; this.parentElement.querySelector('label').style.fontSize='1.02rem'; this.parentElement.querySelector('label').style.color='#94a3b8';}"
+      >
+      <label for="email" style="position: absolute; top: 18px; left: 22px; color: #94a3b8; font-size: 1.02rem; pointer-events: none; transition: all 0.35s cubic-bezier(0.4,0,0.2,1);">Your Email</label>
+    </div>
+
+    <!-- Subject -->
+    <div style="position: relative;">
+      <input
+        type="text"
+        id="subject"
+        required
+        style="width: 100%; padding: 20px 22px 8px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.12); border-radius: 18px; color: #f8fafc; font-size: 1.02rem; transition: all 0.35s cubic-bezier(0.4,0,0.2,1);"
+        onfocus="this.style.borderColor='#818cf8'; this.parentElement.querySelector('label').style.top='8px'; this.parentElement.querySelector('label').style.fontSize='0.82rem'; this.parentElement.querySelector('label').style.color='#c4d0ff';"
+        onblur="if(this.value===''){this.style.borderColor='rgba(255,255,255,0.12)'; this.parentElement.querySelector('label').style.top='18px'; this.parentElement.querySelector('label').style.fontSize='1.02rem'; this.parentElement.querySelector('label').style.color='#94a3b8';}"
+      >
+      <label for="subject" style="position: absolute; top: 18px; left: 22px; color: #94a3b8; font-size: 1.02rem; pointer-events: none; transition: all 0.35s cubic-bezier(0.4,0,0.2,1);">Subject</label>
+    </div>
+
+    <!-- Message -->
+    <div style="position: relative;">
+      <textarea
+        id="message"
+        rows="5"
+        required
+        style="width: 100%; padding: 20px 22px 8px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.12); border-radius: 18px; color: #f8fafc; font-size: 1.02rem; resize: vertical; transition: all 0.35s cubic-bezier(0.4,0,0.2,1);"
+        onfocus="this.style.borderColor='#818cf8'; this.parentElement.querySelector('label').style.top='8px'; this.parentElement.querySelector('label').style.fontSize='0.82rem'; this.parentElement.querySelector('label').style.color='#c4d0ff';"
+        onblur="if(this.value===''){this.style.borderColor='rgba(255,255,255,0.12)'; this.parentElement.querySelector('label').style.top='18px'; this.parentElement.querySelector('label').style.fontSize='1.02rem'; this.parentElement.querySelector('label').style.color='#94a3b8';}"
+      ></textarea>
+      <label for="message" style="position: absolute; top: 18px; left: 22px; color: #94a3b8; font-size: 1.02rem; pointer-events: none; transition: all 0.35s cubic-bezier(0.4,0,0.2,1);">Your Message</label>
+    </div>
+
+    <!-- Submit Button -->
+    <button
+      type="submit"
+      style="margin-top: 8px; padding: 18px 32px; background: linear-gradient(90deg, #6366f1, #8b5cf6); border: none; border-radius: 18px; color: white; font-weight: 700; font-size: 1.05rem; cursor: pointer; transition: all 0.4s cubic-bezier(0.4,0,0.2,1);">
+      Send Message
+    </button>
+
+  </form>
+</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3 style="margin-bottom: 1.5rem; font-size: 1.5rem;">Barshah Sarkar</h3>
+                    <p style="color: var(--text-muted);">Creating digital experiences that inspire, engage, and convert.</p>
+                </div>
+                <div class="footer-section">
+                    <h3 style="margin-bottom: 1.5rem; font-size: 1.5rem;">Quick Links</h3>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 0.8rem;"><a href="#home" class="nav-link">Home</a></li>
+                        <li style="margin-bottom: 0.8rem;"><a href="#about" class="nav-link">About</a></li>
+                        <li style="margin-bottom: 0.8rem;"><a href="#portfolio" class="nav-link">Portfolio</a></li>
+                        <li style="margin-bottom: 0.8rem;"><a href="#contact" class="nav-link">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3 style="margin-bottom: 1.5rem; font-size: 1.5rem;">Services</h3>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 0.8rem; color: var(--text-muted);">UI/UX Design</li>
+                        <li style="margin-bottom: 0.8rem; color: var(--text-muted);">Web Development</li>
+                        <li style="margin-bottom: 0.8rem; color: var(--text-muted);">Brand Strategy</li>
+                        <li style="margin-bottom: 0.8rem; color: var(--text-muted);">Consultation</li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3 style="margin-bottom: 1.5rem; font-size: 1.5rem;">Newsletter</h3>
+                    <p style="color: var(--text-muted); margin-bottom: 1rem;">Subscribe for updates and insights.</p>
+                    <div class="form-group">
+                        <input type="email" class="form-control" placeholder="Your Email" style="margin-bottom: 1rem;">
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">Subscribe</button>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 Barshah Sarkar. All rights reserved. | Crafted with <i class="fas fa-heart" style="color: var(--accent-pink);"></i> and innovation</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top -->
+    <a href="#home" class="back-to-top" id="backToTop">
+        <i class="fas fa-chevron-up"></i>
+    </a>
+
+    <!-- Particles.js Library -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Elements
+            const header = document.getElementById('header');
+            const hamburger = document.getElementById('hamburger');
+            const navLinks = document.getElementById('navLinks');
+            const navLinkItems = document.querySelectorAll('.nav-link');
+            const backToTop = document.getElementById('backToTop');
+            const body = document.body;
+            const themeToggle = document.getElementById('themeToggle');
+            const animateElements = document.querySelectorAll('.animate-on-scroll');
+
+            // Header scroll effect
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+
+                // Update active nav link based on scroll position
+                const sections = document.querySelectorAll('section');
+                let current = '';
+
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    if (window.scrollY >= (sectionTop - 200)) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinkItems.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === '#' + current) {
+                        link.classList.add('active');
+                    }
+                });
+
+                // Back to Top Button
+                if (window.scrollY > 500) {
+                    backToTop.classList.add('visible');
+                } else {
+                    backToTop.classList.remove('visible');
+                }
+            });
+
+            // Mobile menu toggle
+            hamburger.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+                hamburger.classList.toggle('active');
+
+                if (navLinks.classList.contains('active')) {
+                    body.style.overflow = 'hidden';
+                } else {
+                    body.style.overflow = '';
+                }
+            });
+
+            // Close mobile menu when clicking a link
+            navLinkItems.forEach(link => {
+                link.addEventListener('click', () => {
+                    navLinks.classList.remove('active');
+                    hamburger.classList.remove('active');
+                    body.style.overflow = '';
+                });
+            });
+
+            // Smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        const offset = 80;
+                        const targetPosition = targetElement.offsetTop - offset;
+
+                        window.scrollTo({
+                            top: targetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+
+            // Theme toggle
+            themeToggle.addEventListener('click', () => {
+                const currentTheme = body.getAttribute('data-theme');
+                if (currentTheme === 'light') {
+                    body.setAttribute('data-theme', 'dark');
+                    themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    body.setAttribute('data-theme', 'light');
+                    themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+                    localStorage.setItem('theme', 'light');
+                }
+
+                themeToggle.style.transform = 'rotate(360deg)';
+                setTimeout(() => {
+                    themeToggle.style.transform = '';
+                }, 300);
+            });
+
+            // Load saved theme
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            body.setAttribute('data-theme', savedTheme);
+            themeToggle.innerHTML = savedTheme === 'light' ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+
+            // Animate on scroll
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+
+                        // Animate stats counters
+                        if (entry.target.classList.contains('stat-card')) {
+                            const statNumber = entry.target.querySelector('.stat-number');
+                            const target = parseInt(statNumber.getAttribute('data-count'));
+                            const duration = 2000;
+                            const step = target / (duration / 16);
+                            let current = 0;
+
+                            if (!statNumber.getAttribute('data-animated')) {
+                                statNumber.setAttribute('data-animated', 'true');
+
+                                const timer = setInterval(() => {
+                                    current += step;
+                                    if (current >= target) {
+                                        clearInterval(timer);
+                                        current = target;
+                                    }
+                                    statNumber.textContent = Math.floor(current);
+                                }, 16);
+                            }
+                        }
+
+                        // Animate skill progress bars
+                        if (entry.target.classList.contains('skill-item')) {
+                            const progressBar = entry.target.querySelector('.skill-progress-bar');
+                            if (progressBar && !progressBar.getAttribute('data-animated')) {
+                                const width = progressBar.getAttribute('data-width');
+                                progressBar.setAttribute('data-animated', 'true');
+                                setTimeout(() => {
+                                    progressBar.style.width = width + '%';
+                                }, 300);
+                            }
+                        }
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            });
+
+            // Observe all animate-on-scroll elements
+            animateElements.forEach(el => {
+                observer.observe(el);
+            });
+
+            // Initialize particles
+            if (typeof particlesJS !== 'undefined') {
+                particlesJS('particles-js', {
+                    particles: {
+                        number: {
+                            value: 80,
+                            density: {
+                                enable: true,
+                                value_area: 800
+                            }
+                        },
+                        color: {
+                            value: ["#3b82f6", "#8b5cf6", "#10b981"]
+                        },
+                        shape: {
+                            type: "circle"
+                        },
+                        opacity: {
+                            value: 0.5,
+                            random: true
+                        },
+                        size: {
+                            value: 3,
+                            random: true
+                        },
+                        line_linked: {
+                            enable: true,
+                            distance: 150,
+                            color: "#8b5cf6",
+                            opacity: 0.2,
+                            width: 1
+                        },
+                        move: {
+                            enable: true,
+                            speed: 2,
+                            direction: "none",
+                            random: true,
+                            straight: false,
+                            out_mode: "out",
+                            bounce: false
+                        }
+                    },
+                    interactivity: {
+                        detect_on: "canvas",
+                        events: {
+                            onhover: {
+                                enable: true,
+                                mode: "grab"
+                            }
+                        },
+                        modes: {
+                            grab: {
+                                distance: 200,
+                                line_linked: {
+                                    opacity: 0.3
+                                }
+                            }
+                        }
+                    },
+                    retina_detect: true
+                });
+            }
+
+            // Testimonial slider
+            let currentSlide = 0;
+            const slides = document.querySelectorAll('.testimonial-slide');
+
+            function showSlide(index) {
+                slides.forEach(slide => slide.classList.remove('active'));
+                slides[index].classList.add('active');
+                currentSlide = index;
+            }
+
+            setInterval(() => {
+                currentSlide = (currentSlide + 1) % slides.length;
+                showSlide(currentSlide);
+            }, 5000);
+
+            // Form handling
+            const contactForm = document.getElementById('contactForm');
+            contactForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+
+                // Get form data
+                const formData = new FormData(contactForm);
+                const data = Object.fromEntries(formData);
+
+                // Show success message
+                const submitBtn = contactForm.querySelector('button[type="submit"]');
+                submitBtn.textContent = 'Message Sent!';
+                submitBtn.style.background = 'var(--gradient-secondary)';
+                submitBtn.disabled = true;
+
+                setTimeout(() => {
+                    alert('Thank you for your message! I will get back to you within 24 hours.');
+                    contactForm.reset();
+                    submitBtn.textContent = 'Send Message';
+                    submitBtn.style.background = 'var(--gradient-primary)';
+                    submitBtn.disabled = false;
+                }, 1000);
+            });
+
+            // Form label animation
+            document.querySelectorAll('.form-control').forEach(input => {
+                input.addEventListener('focus', function() {
+                    this.nextElementSibling.style.top = '0.5rem';
+                    this.nextElementSibling.style.left = '1rem';
+                    this.nextElementSibling.style.fontSize = '0.85rem';
+                    this.nextElementSibling.style.color = 'var(--accent-blue)';
+                    this.nextElementSibling.style.background = 'var(--card-dark)';
+                    this.nextElementSibling.style.padding = '0 0.5rem';
+                });
+
+                input.addEventListener('blur', function() {
+                    if (!this.value) {
+                        this.nextElementSibling.style.top = '1.5rem';
+                        this.nextElementSibling.style.left = '1.5rem';
+                        this.nextElementSibling.style.fontSize = '1rem';
+                        this.nextElementSibling.style.color = 'var(--text-muted)';
+                        this.nextElementSibling.style.background = 'transparent';
+                        this.nextElementSibling.style.padding = '0';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
