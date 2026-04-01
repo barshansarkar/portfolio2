@@ -2853,12 +2853,20 @@ Guiding you towards clarity, growth & destiny alignment (2025)
               ×
             </span>
             <h2>Contact Me</h2>
-            <form action="https://formsubmit.co/sarkarbarshan4@gmail.com" method="POST" style="display:flex; flex-direction:column; gap:16px;">
-              <input type="text" name="name" placeholder="Your Name" required style="padding:12px; border:1px solid #ccc; border-radius:6px;">
-              <input type="email" name="email" placeholder="Your Email" required style="padding:12px; border:1px solid #ccc; border-radius:6px;">
-              <textarea name="message" placeholder="Your Message" required style="padding:12px; border:1px solid #ccc; border-radius:6px; min-height:120px;"></textarea>
-              <button type="submit" style="padding:12px; background:#000; color:white; border:none; border-radius:6px; cursor:pointer;">Send Message</button>
-            </form>
+           <form action="https://formsubmit.co/sarkarbarshan4@gmail.com" method="POST" style="display:flex; flex-direction:column; gap:16px;">
+  
+  <input type="text" name="name" placeholder="Your Name" required>
+  <input type="email" name="email" placeholder="Your Email" required>
+  <textarea name="message" placeholder="Your Message" required></textarea>
+
+  <!-- Important hidden configs -->
+  <input type="hidden" name="_captcha" value="false">
+  <input type="hidden" name="_template" value="table">
+  <input type="hidden" name="_subject" value="New Portfolio Message!">
+  <input type="hidden" name="_next" value="https://yourusername.github.io/thanks.html">
+
+  <button type="submit">Send Message</button>
+</form>
             <p style="font-size:13px; color:#555; text-align:center; margin-top:20px;">
               Messages will be sent to: <strong>sarkarbarshan4@gmail.com</strong><br>
               Check your <strong>Spam folder</strong> if not in Inbox!
